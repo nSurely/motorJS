@@ -59,13 +59,14 @@ class Drivers {
                 contact,
                 occupation,
             };
-            let driverRaw = yield this.api.request({
+            let raw = yield this.api.request({
                 method: "GET",
                 endpoint: `drivers/${driverId}`,
                 params,
             });
-            let driver = new drivers_1.Driver(driverRaw);
-            return driver;
+            let instance = new drivers_1.Driver(raw);
+            instance.api = this.api;
+            return instance;
         });
     }
     listDrivers({ dob, email, firstName, lastName, externalId, isActive, maxRecords, }) {
@@ -84,12 +85,12 @@ class Drivers {
                         isActive,
                     },
                 })), _c; _c = yield __await(_b.next()), !_c.done;) {
-                    let driverRaw = _c.value;
+                    let raw = _c.value;
                     if (maxRecords && count >= maxRecords) {
                         break;
                     }
-                    let driver = new drivers_1.Driver(driverRaw);
-                    yield yield __await(driver);
+                    let instance = new drivers_1.Driver(raw);
+                    yield yield __await(instance);
                     count++;
                 }
             }
@@ -110,7 +111,7 @@ class Drivers {
             if (password && sendInvite) {
                 throw new Error("You cannot provide a password if sendInvite is true");
             }
-            let driverRaw = yield this.api.request({
+            let raw = yield this.api.request({
                 method: "POST",
                 endpoint: `drivers`,
                 data: Object.assign(Object.assign({}, driver), { password }),
@@ -119,8 +120,8 @@ class Drivers {
                     invite: sendInvite ? "true" : "false",
                 },
             });
-            let driverObj = new drivers_1.Driver(driverRaw);
-            return driverObj;
+            let instance = new drivers_1.Driver(raw);
+            return instance;
         });
     }
 }

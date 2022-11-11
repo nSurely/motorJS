@@ -201,13 +201,15 @@ class APIHandlerAuth {
                 this.refreshOrgData();
             }
             yield this.checkAuth();
-            let { body, status } = yield this.makeRequest({
+            let response = yield this.makeRequest({
                 method,
                 url: urlOverride ? urlOverride : `${this.orgUrl}/${endpoint}`,
                 params,
                 data,
                 headers,
             });
+            let body = (response === null || response === void 0 ? void 0 : response.body) || {};
+            let status = (response === null || response === void 0 ? void 0 : response.status) || 0;
             if (status === 401) {
                 yield this.checkAuth();
                 headers = Object.assign(Object.assign({}, headers), this.auth.getHeaders());
@@ -218,8 +220,8 @@ class APIHandlerAuth {
                     data,
                     headers,
                 });
-                status = response.status;
-                body = response.body;
+                body = (response === null || response === void 0 ? void 0 : response.body) || {};
+                status = (response === null || response === void 0 ? void 0 : response.status) || 0;
             }
             if (status < 300) {
                 return body;
