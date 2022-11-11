@@ -1,0 +1,1 @@
+{"version":3,"file":"interface.d.ts","sourceRoot":"","sources":["../../../../../src/models/policy/premium/interface.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,OAAO;IACvB,KAAK,CAAC,EAAE,MAAM,CAAC;IACf,gBAAgB,CAAC,EAAE,OAAO,CAAC;IAC3B,SAAS,CAAC,EAAE,MAAM,CAAC;IACnB,YAAY,CAAC,EAAE,OAAO,CAAC;IACvB,eAAe,CAAC,EAAE,IAAI,CAAC;IACvB,QAAQ,CAAC,EAAE,OAAO,CAAC;CACnB"}

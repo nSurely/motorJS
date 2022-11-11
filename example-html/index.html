@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>MotorJS Web Example</title>
+		<script type="text/javascript" src="../dist/web/index.js"></script>
+	</head>
+	<body>
+		<h1>Inaza JS SDK Example</h1>
+		<textarea disabled style="width: 100%; height: 100vh" id="console"></textarea>
+	</body>
+	<script type="text/javascript">
+		// Read credentials from environment file. Make sure environment file is present in the root directory of the repository. If not, create one from env.example.json.
+		fetch("../env.json")
+			.then((response) => response.json())
+			.then((env) => {
+				// Initialise Auth
+				let auth = new motorJS.Auth({
+					orgId: env.init.orgId,
+					region: env.init.region,
+					email: env.auth.email,
+					password: env.auth.password,
+					accountType: env.auth.accountType,
+				});
+
+				// Login
+				auth.login().then((res) => {
+					appendToConsole(`Login successful. Token: ${res}\n\n`);
+				});
+
+				// Initialise the Motor SDK and pass the Auth object
+				let motor = new motorJS.Motor({
+					orgId: env.init.orgId,
+					region: env.init.region,
+					storage: window.localStorage, // Set storage to localStorage to persist the user session
+					auth: auth,
+				});
+
+				motor.orgSettings().then((res) => {
+					appendToConsole(`Org settings: ${JSON.stringify(res, null, 2)}\n\n`);
+				});
+
+				motor
+					.getDriver({
+						driverId: env.testing.driverId1,
+					})
+					.then((res) => {
+						appendToConsole(`Driver: ${JSON.stringify(res, null, 2)}\n\n`);
+					});
+
+				// motor
+				// 	.createDriver({
+				// 		driver: {
+				// 			firstName: "FirstName",
+				// 			lastName: "LastName",
+				// 			email: "someEmail@org.com",
+				// 		},
+				// 		password: "$tr0ngP@ssw0rd",
+				// 	})
+				// 	.then((res) => {
+				//		appendToConsole(`Driver Created: ${res.fullName()}\n\n`);
+				//
+				// 	});
+
+				motor
+					.getVehicle({
+						vehicleId: env.rvId1,
+					})
+					.then((res) => {
+						appendToConsole(`Vehicle: ${JSON.stringify(res, null, 2)}\n\n`);
+					});
+			});
+	</script>
+
+	<script>
+		function appendToConsole(value) {
+			document.getElementById("console").value = document.getElementById("console").value + value + "\n";
+		}
+	</script>
+
+	<style>
+		textarea {
+			width: -webkit-fill-available !important;
+			height: 85vh !important;
+			background: black;
+			color: green;
+			padding: 15px;
+			border-radius: 10px;
+		}
+	</style>
+</html>

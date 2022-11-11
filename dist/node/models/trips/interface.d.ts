@@ -1,0 +1,35 @@
+export interface ConsolidatedMovementBase {
+    appliedRiskScore?: number;
+    appliedLookbackRiskScore?: number;
+    dynamicRiskScoreAverage?: number;
+    dynamicRiskScoreLow?: number;
+    dynamicRiskScoreHigh?: number;
+    dynamicRiskScoreStddev?: number;
+    dynamicRiskScoreCount?: number;
+    sourceId?: string;
+    sourceIdType?: string;
+    createdAt?: Date;
+    cost?: number;
+    startLat?: number;
+    startLng?: number;
+    startTime?: Date;
+    startAdrLabel?: string;
+    endLat?: number;
+    endLng?: number;
+    endTime?: Date;
+    endAdrLabel?: string;
+    tripDetails?: Object;
+    price?: number;
+    distanceKm?: number;
+    averageSpeedLimitKm?: number;
+    speedLow?: number;
+    speedHigh?: number;
+    isCancelled?: boolean;
+    cancelledAt?: Date;
+    bindingId?: string;
+    cancellationMessage?: string;
+    reasonId?: string;
+    id?: string;
+    reasonDisplay?: string;
+}
+//# sourceMappingURL=interface.d.ts.map

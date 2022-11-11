@@ -1,0 +1,45 @@
+import { Approval } from "./approval/interface";
+import { Cancellation } from "./cancellation/interface";
+import { Config } from "./config/interface";
+import { Fees } from "./fees/interface";
+import { Driver } from "./driver/interface";
+import { Duration } from "./duration/interface";
+import { Excess } from "./excess/interface";
+import { Extras } from "./extras/interface";
+import { Premium } from "./premium/interface";
+import { Contribution } from "./contribution/interface";
+import { Final } from "./final/interface";
+import { Issuer } from "./issuer/interface";
+import { NoClaims } from "./noclaims/interface";
+import { Rates } from "./rates/interface";
+import { Rewards } from "./rewards/interface";
+import { Telematics } from "./telematics/interface";
+export interface PolicyBase {
+    apiPath?: string;
+    isActivePolicy?: boolean;
+    sumInsured?: number;
+    canRenew?: boolean;
+    cover?: string[];
+    maxPassengers?: number;
+    id?: string;
+    createdAt?: Date;
+    policyCertificateLoc?: string;
+    approval?: Approval;
+    cancellation?: Cancellation;
+    config?: Config;
+    contribution?: Contribution;
+    driver?: Driver;
+    duration?: Duration;
+    excess?: Excess;
+    extras?: Extras;
+    fees?: Fees;
+    final?: Final;
+    issuer?: Issuer;
+    noClaims?: NoClaims;
+    premium?: Premium;
+    rates?: Rates;
+    rewards?: Rewards;
+    telematics?: Telematics;
+    policyGroup?: string;
+}
+//# sourceMappingURL=interface.d.ts.map
