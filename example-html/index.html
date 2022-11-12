@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<h1>Inaza JS SDK Example</h1>
-		<textarea disabled style="width: 100%; height: 100vh" id="console"></textarea>
+		<pre disabled style="width: 100%; height: 100vh" id="console"></pre>
 	</body>
 	<script type="text/javascript">
 		// Read credentials from environment file. Make sure environment file is present in the root directory of the repository. If not, create one from env.example.json.
@@ -24,9 +24,13 @@
 				});
 
 				// Login
-				auth.login().then((res) => {
-					appendToConsole(`Login successful. Token: ${res}\n\n`);
-				});
+				auth.login()
+					.then((res) => {
+						appendSuccessToConsole(`Login successful. Token: ${JSON.stringify(res, null, 2)}\n\n`);
+					})
+					.catch((err) => {
+						appendErrorToConsole(`Login failed. Error: ${JSON.stringify(err, null, 2)}\n\n`);
+					});
 
 				// Initialise the Motor SDK and pass the Auth object
 				let motor = new motorJS.Motor({
@@ -36,56 +40,87 @@
 					auth: auth,
 				});
 
-				motor.orgSettings().then((res) => {
-					appendToConsole(`Org settings: ${JSON.stringify(res, null, 2)}\n\n`);
-				});
+				motor
+					.orgSettings()
+					.then((res) => {
+						appendSuccessToConsole(`Org settings: ${JSON.stringify(res, null, 2)}\n\n`);
+					})
+					.catch((err) => {
+						appendErrorToConsole(`Org settings failed. Error: ${JSON.stringify(err, null, 2)}\n\n`);
+					});
 
 				motor
 					.getDriver({
 						driverId: env.testing.driverId1,
 					})
 					.then((res) => {
-						appendToConsole(`Driver: ${JSON.stringify(res, null, 2)}\n\n`);
+						appendSuccessToConsole(`Driver: ${JSON.stringify(res, null, 2)}\n\n`);
+					})
+					.catch((err) => {
+						appendErrorToConsole(`Error fetching driver. Error: ${JSON.stringify(err, null, 2)}\n\n`);
 					});
 
-				// motor
-				// 	.createDriver({
-				// 		driver: {
-				// 			firstName: "FirstName",
-				// 			lastName: "LastName",
-				// 			email: "someEmail@org.com",
-				// 		},
-				// 		password: "$tr0ngP@ssw0rd",
-				// 	})
-				// 	.then((res) => {
-				//		appendToConsole(`Driver Created: ${res.fullName()}\n\n`);
-				//
-				// 	});
+				motor
+					.createDriver({
+						driver: {
+							firstName: "FirstName",
+							lastName: "LastName",
+							email: "someEmail@org.com",
+						},
+						password: "$tr0ngP@ssw0rd",
+					})
+					.then((res) => {
+						appendSuccessToConsole(`Driver Created: ${res.fullName()}\n\n`);
+					})
+					.catch((err) => {
+						appendErrorToConsole(`Driver Creation Error: ${JSON.stringify(err, null, 2)}\n\n`);
+					});
 
 				motor
 					.getVehicle({
-						vehicleId: env.rvId1,
+						vehicleId: env.testing.rvId1,
 					})
 					.then((res) => {
-						appendToConsole(`Vehicle: ${JSON.stringify(res, null, 2)}\n\n`);
+						appendSuccessToConsole(`Vehicle: ${JSON.stringify(res, null, 2)}\n\n`);
+					})
+					.catch((err) => {
+						appendErrorToConsole(`Error fetching vehicle: ${JSON.stringify(err, null, 2)}\n\n`);
 					});
 			});
 	</script>
 
 	<script>
 		function appendToConsole(value) {
-			document.getElementById("console").value = document.getElementById("console").value + value + "\n";
+			document.getElementById("console").innerHTML = "<span class='info'>" + document.getElementById("console").innerHTML + value + "</span>\n";
+		}
+
+		function appendSuccessToConsole(value) {
+			document.getElementById("console").innerHTML = "<span class='success'>" + document.getElementById("console").innerHTML + value + "</span>\n";
+		}
+
+		function appendErrorToConsole(value) {
+			document.getElementById("console").innerHTML = "<span class='error'>" + document.getElementById("console").innerHTML + value + "</span>\n";
 		}
 	</script>
 
 	<style>
-		textarea {
+		#console {
 			width: -webkit-fill-available !important;
 			height: 85vh !important;
-			background: black;
-			color: green;
+			background: #000;
+			color: #fff;
 			padding: 15px;
 			border-radius: 10px;
+			overflow: scroll;
+		}
+		#console .info {
+			color: white;
+		}
+		#console .success {
+			color: green;
+		}
+		#console .error {
+			color: red;
 		}
 	</style>
 </html>
