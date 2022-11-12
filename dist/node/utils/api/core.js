@@ -192,13 +192,14 @@ class APIHandlerAuth {
                     return;
                 }
             }
+            return;
         });
     }
     request({ method, endpoint, params, data, headers, urlOverride, }) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!this.orgData && !this.orgDataRefreshing) {
                 this.orgDataRefreshing = true;
-                this.refreshOrgData();
+                yield this.refreshOrgData();
             }
             yield this.checkAuth();
             let response = yield this.makeRequest({

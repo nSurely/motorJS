@@ -27,7 +27,7 @@ class JWTAuth {
         this.accessToken = undefined;
         this.expiresIn = undefined;
         this.refreshToken = undefined;
-        this.refreshTokenExpiresIn = undefined;
+        this.refreshExpiresIn = undefined;
         this.lastRefreshTime = undefined;
         this.accountId = undefined;
         this.accountType = undefined;
@@ -67,11 +67,11 @@ class JWTAuth {
         if (!this.lastRefreshTime) {
             return true;
         }
-        if (!this.refreshTokenExpiresIn) {
+        if (!this.refreshExpiresIn) {
             return true;
         }
         // Check if refresh token is expired
-        if (this.refreshTokenExpiresIn - (Date.now() - this.lastRefreshTime) < 0) {
+        if (this.refreshExpiresIn - (Date.now() - this.lastRefreshTime) < 0) {
             return true;
         }
         return false;
@@ -106,7 +106,7 @@ class JWTAuth {
             this.accessToken = (_b = response.body) === null || _b === void 0 ? void 0 : _b.accessToken;
             this.expiresIn = (_c = response.body) === null || _c === void 0 ? void 0 : _c.expiresIn;
             this.refreshToken = (_d = response.body) === null || _d === void 0 ? void 0 : _d.refreshToken;
-            this.refreshTokenExpiresIn = (_e = response.body) === null || _e === void 0 ? void 0 : _e.refreshTokenExpiresIn;
+            this.refreshExpiresIn = (_e = response.body) === null || _e === void 0 ? void 0 : _e.refreshExpiresIn;
             this.accountId = (_f = response.body) === null || _f === void 0 ? void 0 : _f.accountId;
             this.accountType = (_g = response.body) === null || _g === void 0 ? void 0 : _g.accountType;
             if (this.authType === "user") {
@@ -129,7 +129,7 @@ class JWTAuth {
                 this.accessToken = undefined;
                 this.refreshToken = undefined;
                 this.expiresIn = undefined;
-                this.refreshTokenExpiresIn = undefined;
+                this.refreshExpiresIn = undefined;
                 this.lastRefreshTime = undefined;
             }
         });
@@ -144,10 +144,10 @@ class JWTAuth {
         if (!this.lastRefreshTime) {
             return false;
         }
-        if (!this.refreshTokenExpiresIn) {
+        if (!this.refreshExpiresIn) {
             return false;
         }
-        if (this.refreshTokenExpiresIn - (Date.now() - this.lastRefreshTime) < 0) {
+        if (this.refreshExpiresIn - (Date.now() - this.lastRefreshTime) < 0) {
             return true;
         }
         return true;
@@ -169,7 +169,7 @@ class JWTAuth {
             this.accessToken = (_b = response.body) === null || _b === void 0 ? void 0 : _b.accessToken;
             this.expiresIn = (_c = response.body) === null || _c === void 0 ? void 0 : _c.expiresIn;
             this.refreshToken = (_d = response.body) === null || _d === void 0 ? void 0 : _d.refreshToken;
-            this.refreshTokenExpiresIn = (_e = response.body) === null || _e === void 0 ? void 0 : _e.refreshTokenExpiresIn;
+            this.refreshExpiresIn = (_e = response.body) === null || _e === void 0 ? void 0 : _e.refreshExpiresIn;
             this.accountId = (_f = response.body) === null || _f === void 0 ? void 0 : _f.accountId;
             this.accountType = (_g = response.body) === null || _g === void 0 ? void 0 : _g.accountType;
             this.lastRefreshTime = Date.now();

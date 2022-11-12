@@ -68,10 +68,6 @@ class StorageManager {
             });
         });
     }
-    static test(a) {
-        console.log(a);
-        return a;
-    }
 }
 exports.default = StorageManager;
 //# sourceMappingURL=index.js.map

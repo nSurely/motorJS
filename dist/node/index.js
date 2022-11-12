@@ -115,16 +115,7 @@ class Motor {
     orgSettings() {
         return __awaiter(this, void 0, void 0, function* () {
             if (!this.api.orgData) {
-                return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
-                    yield this.api
-                        .refreshOrgData()
-                        .then(() => {
-                        resolve(this.api.orgData);
-                    })
-                        .catch((err) => {
-                        reject(err);
-                    });
-                }));
+                yield this.api.refreshOrgData();
             }
             return this.api.orgData;
         });

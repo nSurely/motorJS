@@ -17,6 +17,7 @@ export declare class Auth {
     region?: string;
     url: string | undefined;
     orgId: string;
+    isLoggingIn: boolean;
     constructor({ apiKey, apiSecret, email, password, accountType, orgId, region, url, }: {
         apiKey?: string;
         apiSecret?: string;
@@ -29,7 +30,7 @@ export declare class Auth {
     });
     requiresRefresh(): boolean;
     refresh(): Promise<void>;
-    login(): Promise<string | boolean | undefined>;
+    login(): Promise<unknown>;
     logout(): Promise<boolean | void>;
     getToken(): string;
     getHeaders(): object;

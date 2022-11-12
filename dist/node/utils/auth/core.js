@@ -31,6 +31,7 @@ class Auth {
         this.region = region;
         this.url = url;
         this.orgId = orgId;
+        this.isLoggingIn = false;
         if (this.url) {
             // Remove trailing slash
             if (this.url.endsWith("/")) {
@@ -62,7 +63,6 @@ class Auth {
                 throw new exceptions_1.AuthError("Account type must be specified.");
             }
             if (this.accountType === "driver") {
-                console.log("Auth object is driver");
                 this.authMethod = AuthType.JWT_DRIVER;
                 this.authObject = new driver_1.DriverAuth({
                     email: this.email,
@@ -105,9 +105,33 @@ class Auth {
             if (this.authMethod === AuthType.API_KEY) {
                 return true;
             }
-            if (this.email && this.password) {
-                console.log("Logging in...");
-                return yield this.authObject.login(this.email, this.password);
+            // Check if login is already in progress. If so, wait for it to finish.
+            if (!this.isLoggingIn) {
+                // Set login flag to true
+                this.isLoggingIn = true;
+                if (this.email && this.password) {
+                    let response = yield this.authObject.login(this.email, this.password);
+                    this.isLoggingIn = false;
+                    return response;
+                }
+                else {
+                    throw new exceptions_1.AuthError("Auth credentials are missing.");
+                }
+            }
+            else {
+                // Wait for login to finish
+                return yield new Promise((resolve) => {
+                    // Check if login is finished every 100ms
+                    const interval = setInterval(() => {
+                        // If login is finished, resolve the promise
+                        if (!this.isLoggingIn) {
+                            // Clear the interval
+                            clearInterval(interval);
+                            // Resolve the promise
+                            resolve(this.authObject.getToken());
+                        }
+                    }, 100);
+                });
             }
         });
     }

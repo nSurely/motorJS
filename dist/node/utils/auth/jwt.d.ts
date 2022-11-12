@@ -9,7 +9,7 @@ export declare class JWTAuth {
     accessToken?: string;
     expiresIn?: number;
     refreshToken?: string;
-    refreshTokenExpiresIn?: number;
+    refreshExpiresIn?: number;
     lastRefreshTime?: EpochTimeStamp;
     accountId?: string;
     accountType?: string;

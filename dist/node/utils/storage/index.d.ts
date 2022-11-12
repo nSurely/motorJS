@@ -22,6 +22,5 @@ export default class StorageManager {
     remove({ key }: {
         key: string;
     }): Promise<void>;
-    static test(a: any): string;
 }
 //# sourceMappingURL=index.d.ts.map
