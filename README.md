@@ -36,7 +36,7 @@ If your web based project does not support importing packages, you can still use
 		...
 	</body>
 	<script type="text/javascript">
-		// You can make use on motorJS obj
+		// You can make use of motorJS obj
 	</script>
 </html>
 ```
