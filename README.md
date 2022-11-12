@@ -8,16 +8,16 @@ The goal of motorJS and other Inaza libraries and SDKs are to provide a layer of
 
 ### Option 1: Importing the package in your frontend/backend project
 
-Install the motor-js package using npm:
+Install the motorJS package using npm:
 
 ```console
-foo@bar:~$ npm install @inaza/motor-js
+foo@bar:~$ npm install @inaza/motorJS
 ```
 
 Import motorJS
 
 ```js
-import motorJS from "motor-js";
+import motorJS from "motorJS";
 ```
 
 ### Option 2: Importing it directly via CDN
@@ -45,7 +45,7 @@ If your web based project does not support importing packages, you can still use
 
 ```js
 // Import the motorJS object from the package
-import motorJS from "motor-js";
+import motorJS from "motorJS";
 
 // Optional - Import AsyncStorage if you are using the MotorJS sdk in a react native project.
 import AsyncStorage from "@react-native-async-storage/async-storage";

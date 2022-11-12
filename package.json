@@ -1,5 +1,5 @@
 {
-	"name": "motor-js",
+	"name": "motorJS",
 	"version": "0.1.0",
 	"description": "Inaza JS SDK",
 	"main": "dist/node/index.js",
@@ -10,7 +10,7 @@
 		}
 	],
 	"license": "",
-	"repository": "github:nsurely/motor-js",
+	"repository": "github:nsurely/motorJS",
 	"devDependencies": {
 		"@babel/cli": "^7.19.3",
 		"@babel/core": "^7.20.2",

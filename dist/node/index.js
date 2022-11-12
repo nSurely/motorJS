@@ -34,12 +34,12 @@ const fleets_1 = __importDefault(require("./classes/fleets"));
  * @break
  *
  * ## 📦 Installation
- * `npm install @inaza/motor-js`
+ * `npm install @inaza/motorJS`
  *
  * ## 🚀 Usage
  * ```js
  * // Import the motorJS object from the package
- * import motorJS from "motor-js";
+ * import motorJS from "motorJS";
  *
  * // Optional - Import AsyncStorage if you are using the MotorJS sdk in a react native project.
  * import AsyncStorage from "@react-native-async-storage/async-storage";
