@@ -112,16 +112,7 @@ class Motor {
 
 	async orgSettings(): Promise<OrgSettings | undefined> {
 		if (!this.api.orgData) {
-			return new Promise(async (resolve, reject) => {
-				await this.api
-					.refreshOrgData()
-					.then(() => {
-						resolve(this.api.orgData);
-					})
-					.catch((err) => {
-						reject(err);
-					});
-			});
+			await this.api.refreshOrgData();
 		}
 
 		return this.api.orgData;

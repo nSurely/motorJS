@@ -12,7 +12,7 @@ export class JWTAuth {
 	accessToken?: string;
 	expiresIn?: number;
 	refreshToken?: string;
-	refreshTokenExpiresIn?: number;
+	refreshExpiresIn?: number;
 	lastRefreshTime?: EpochTimeStamp;
 	accountId?: string;
 	accountType?: string;
@@ -35,7 +35,7 @@ export class JWTAuth {
 		this.accessToken = undefined;
 		this.expiresIn = undefined;
 		this.refreshToken = undefined;
-		this.refreshTokenExpiresIn = undefined;
+		this.refreshExpiresIn = undefined;
 		this.lastRefreshTime = undefined;
 		this.accountId = undefined;
 		this.accountType = undefined;
@@ -45,12 +45,12 @@ export class JWTAuth {
 			throw new Error("Invalid authType. Must be 'driver' or 'user'");
 		}
 
-        if(this.url) {
-            // Remove trailing slash
-            if (this.url.endsWith("/")) {
-                this.url = this.url.slice(0, -1);
-            }
-        }
+		if (this.url) {
+			// Remove trailing slash
+			if (this.url.endsWith("/")) {
+				this.url = this.url.slice(0, -1);
+			}
+		}
 
 		if (!this.url) {
 			// Check if region is valid
@@ -79,11 +79,11 @@ export class JWTAuth {
 		if (!this.lastRefreshTime) {
 			return true;
 		}
-		if (!this.refreshTokenExpiresIn) {
+		if (!this.refreshExpiresIn) {
 			return true;
 		}
 		// Check if refresh token is expired
-		if (this.refreshTokenExpiresIn - (Date.now() - this.lastRefreshTime) < 0) {
+		if (this.refreshExpiresIn - (Date.now() - this.lastRefreshTime) < 0) {
 			return true;
 		}
 		return false;
@@ -119,7 +119,7 @@ export class JWTAuth {
 		this.accessToken = response.body?.accessToken;
 		this.expiresIn = response.body?.expiresIn;
 		this.refreshToken = response.body?.refreshToken;
-		this.refreshTokenExpiresIn = response.body?.refreshTokenExpiresIn;
+		this.refreshExpiresIn = response.body?.refreshExpiresIn;
 		this.accountId = response.body?.accountId;
 		this.accountType = response.body?.accountType;
 
@@ -141,11 +141,11 @@ export class JWTAuth {
 					refreshToken: this.refreshToken,
 				},
 			});
-            this.accessToken = undefined;
-            this.refreshToken = undefined;
-            this.expiresIn = undefined;
-            this.refreshTokenExpiresIn = undefined;
-            this.lastRefreshTime = undefined;
+			this.accessToken = undefined;
+			this.refreshToken = undefined;
+			this.expiresIn = undefined;
+			this.refreshExpiresIn = undefined;
+			this.lastRefreshTime = undefined;
 		}
 	}
 
@@ -159,11 +159,11 @@ export class JWTAuth {
 		if (!this.lastRefreshTime) {
 			return false;
 		}
-		if (!this.refreshTokenExpiresIn) {
+		if (!this.refreshExpiresIn) {
 			return false;
 		}
 
-		if (this.refreshTokenExpiresIn - (Date.now() - this.lastRefreshTime) < 0) {
+		if (this.refreshExpiresIn - (Date.now() - this.lastRefreshTime) < 0) {
 			return true;
 		}
 
@@ -187,7 +187,7 @@ export class JWTAuth {
 		this.accessToken = response.body?.accessToken;
 		this.expiresIn = response.body?.expiresIn;
 		this.refreshToken = response.body?.refreshToken;
-		this.refreshTokenExpiresIn = response.body?.refreshTokenExpiresIn;
+		this.refreshExpiresIn = response.body?.refreshExpiresIn;
 		this.accountId = response.body?.accountId;
 		this.accountType = response.body?.accountType;
 

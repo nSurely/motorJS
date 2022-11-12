@@ -21,6 +21,7 @@ export class Auth {
 	region?: string;
 	url: string | undefined;
 	orgId: string;
+	isLoggingIn: boolean;
 
 	constructor({
 		apiKey,
@@ -49,6 +50,7 @@ export class Auth {
 		this.region = region;
 		this.url = url;
 		this.orgId = orgId;
+		this.isLoggingIn = false;
 
 		if (this.url) {
 			// Remove trailing slash
@@ -83,7 +85,6 @@ export class Auth {
 				throw new AuthError("Account type must be specified.");
 			}
 			if (this.accountType === "driver") {
-				console.log("Auth object is driver");
 				this.authMethod = AuthType.JWT_DRIVER;
 				this.authObject = new DriverAuth({
 					email: this.email,
@@ -123,9 +124,38 @@ export class Auth {
 		if (this.authMethod === AuthType.API_KEY) {
 			return true;
 		}
-		if (this.email && this.password) {
-			console.log("Logging in...");
-			return await this.authObject.login(this.email, this.password);
+
+		// Check if login is already in progress. If so, wait for it to finish.
+		if (!this.isLoggingIn) {
+
+			// Set login flag to true
+			this.isLoggingIn = true;
+			
+			if (this.email && this.password) {
+				let response = await this.authObject.login(this.email, this.password);
+				this.isLoggingIn = false;
+				return response;
+			} else {
+				throw new AuthError("Auth credentials are missing.");
+			}
+		} else {
+			// Wait for login to finish
+			return await new Promise((resolve) => {
+
+				// Check if login is finished every 100ms
+				const interval = setInterval(() => {
+
+					// If login is finished, resolve the promise
+					if (!this.isLoggingIn) {
+
+						// Clear the interval
+						clearInterval(interval);
+
+						// Resolve the promise
+						resolve(this.authObject.getToken());
+					}
+				}, 100);
+			});
 		}
 	}
 

@@ -224,7 +224,7 @@ export class APIHandlerAuth {
 		return true;
 	}
 
-	async checkAuth() {
+	async checkAuth(): Promise<void> {
 		if (!this.authOk()) {
 			if (!this.auth.isLoggedIn()) {
 				await this.auth.login();
@@ -235,6 +235,7 @@ export class APIHandlerAuth {
 				return;
 			}
 		}
+		return;
 	}
 
 	async request({
@@ -254,7 +255,7 @@ export class APIHandlerAuth {
 	}) {
 		if (!this.orgData && !this.orgDataRefreshing) {
 			this.orgDataRefreshing = true;
-			this.refreshOrgData();
+			await this.refreshOrgData();
 		}
 
 		await this.checkAuth();

@@ -61,9 +61,4 @@ export default class StorageManager {
 			key: key,
 		});
 	}
-
-    static test(a: any) :string {
-        console.log(a);
-        return a;
-    }
 }
