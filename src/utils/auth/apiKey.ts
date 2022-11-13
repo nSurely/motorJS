@@ -38,7 +38,7 @@ export class APIKeyAuth {
 	getHeaders(): object {
 		if (!this.headers) {
 			this.headers = {
-				Authorization: `apikey ${this.getToken()}`,
+				Authorization: `apiKey ${this.getToken()}`,
 			};
 		}
 		return this.headers;
