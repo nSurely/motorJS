@@ -40,7 +40,7 @@ export declare class Drivers {
         externalId?: string;
         isActive?: boolean;
         maxRecords?: number;
-    }): AsyncGenerator<Driver, void, unknown>;
+    }): AsyncGenerator<Driver>;
     createDriver({ driver, password, sendInvite, sendWebhook }: {
         driver: DriverBase;
         password?: string;

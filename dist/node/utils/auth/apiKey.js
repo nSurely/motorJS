@@ -40,7 +40,7 @@ class APIKeyAuth {
     getHeaders() {
         if (!this.headers) {
             this.headers = {
-                Authorization: `apikey ${this.getToken()}`,
+                Authorization: `apiKey ${this.getToken()}`,
             };
         }
         return this.headers;

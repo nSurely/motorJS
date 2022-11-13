@@ -73,17 +73,17 @@ class Drivers {
         return __asyncGenerator(this, arguments, function* listDrivers_1() {
             var e_1, _a;
             let count = 0;
+            let params = {};
+            dob ? (params = Object.assign(Object.assign({}, params), { dob })) : null;
+            email ? (params = Object.assign(Object.assign({}, params), { email })) : null;
+            firstName ? (params = Object.assign(Object.assign({}, params), { firstName })) : null;
+            lastName ? (params = Object.assign(Object.assign({}, params), { lastName })) : null;
+            externalId ? (params = Object.assign(Object.assign({}, params), { externalId })) : null;
+            isActive ? (params = Object.assign(Object.assign({}, params), { isActive })) : null;
             try {
                 for (var _b = __asyncValues(this.api.batchFetch({
                     endpoint: `drivers`,
-                    params: {
-                        dob,
-                        email,
-                        firstName,
-                        lastName,
-                        externalId,
-                        isActive,
-                    },
+                    params: params,
                 })), _c; _c = yield __await(_b.next()), !_c.done;) {
                     let raw = _c.value;
                     if (maxRecords && count >= maxRecords) {
