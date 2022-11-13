@@ -86,19 +86,20 @@ export class Drivers {
 		externalId?: string;
 		isActive?: boolean;
 		maxRecords?: number;
-	}): AsyncGenerator<Driver, void, unknown> {
+	}): AsyncGenerator<Driver> {
 		let count = 0;
+
+		let params = {};
+		dob ? (params = { ...params, dob }) : null;
+		email ? (params = { ...params, email }) : null;
+		firstName ? (params = { ...params, firstName }) : null;
+		lastName ? (params = { ...params, lastName }) : null;
+		externalId ? (params = { ...params, externalId }) : null;
+		isActive ? (params = { ...params, isActive }) : null;
 
 		for await (let raw of this.api.batchFetch({
 			endpoint: `drivers`,
-			params: {
-				dob,
-				email,
-				firstName,
-				lastName,
-				externalId,
-				isActive,
-			},
+			params: params,
 		})) {
 			if (maxRecords && count >= maxRecords) {
 				break;
