@@ -16,37 +16,37 @@
 			.then((env) => {
 				// Initialise Auth
 				let auth = new motorJS.Auth({
-					orgId: env.init.orgId,
-					region: env.init.region,
-					email: env.auth.email,
-					password: env.auth.password,
-					accountType: env.auth.accountType,
-				});
+					orgId: env.init.orgId, // <-- Replace with your organisation ID
+					region: env.init.region, // <-- Replace with your region
+					email: env.auth.email, // <-- Replace with users/drivers email
+					password: env.auth.password, // <-- Replace with users/drivers password
+					accountType: env.auth.accountType, // <-- Can be either "user" or "driver"
+				})
 
-				// Login
+				// Optional: Try logging in beforehand to see if the credentials are correct. If not, Motor SDK will try to login automatically when you use it.
 				auth.login()
 					.then((res) => {
-						appendSuccessToConsole(`Login successful. Token: ${JSON.stringify(res, null, 2)}\n\n`);
+						logSuccess(`Login successful. Token: ${JSON.stringify(res, null, 2)}\n\n`);
 					})
 					.catch((err) => {
-						appendErrorToConsole(`Login failed. Error: ${JSON.stringify(err, null, 2)}\n\n`);
+						logError(`Login failed. Error: ${JSON.stringify(err, null, 2)}\n\n`);
 					});
 
 				// Initialise the Motor SDK and pass the Auth object
 				let motor = new motorJS.Motor({
 					orgId: env.init.orgId,
 					region: env.init.region,
-					storage: window.localStorage, // Set storage to localStorage to persist the user session
-					auth: auth,
+					storage: window.localStorage, // <-- Set storage to localStorage to persist the user session
+					auth: auth, // <-- Pass the Auth object here
 				});
 
 				motor
 					.orgSettings()
 					.then((res) => {
-						appendSuccessToConsole(`Org settings: ${JSON.stringify(res, null, 2)}\n\n`);
+						logSuccess(`Org settings: ${JSON.stringify(res, null, 2)}\n\n`);
 					})
 					.catch((err) => {
-						appendErrorToConsole(`Org settings failed. Error: ${JSON.stringify(err, null, 2)}\n\n`);
+						logError(`Org settings failed. Error: ${JSON.stringify(err, null, 2)}\n\n`);
 					});
 
 				motor
@@ -54,10 +54,10 @@
 						driverId: env.testing.driverId1,
 					})
 					.then((res) => {
-						appendSuccessToConsole(`Driver: ${JSON.stringify(res, null, 2)}\n\n`);
+						logSuccess(`Driver: ${JSON.stringify(res, null, 2)}\n\n`);
 					})
 					.catch((err) => {
-						appendErrorToConsole(`Error fetching driver. Error: ${JSON.stringify(err, null, 2)}\n\n`);
+						logError(`Error fetching driver. Error: ${JSON.stringify(err, null, 2)}\n\n`);
 					});
 
 				motor
@@ -70,10 +70,10 @@
 						password: "$tr0ngP@ssw0rd",
 					})
 					.then((res) => {
-						appendSuccessToConsole(`Driver Created: ${res.fullName()}\n\n`);
+						logSuccess(`Driver Created: ${res.fullName()}\n\n`);
 					})
 					.catch((err) => {
-						appendErrorToConsole(`Driver Creation Error: ${JSON.stringify(err, null, 2)}\n\n`);
+						logError(`Driver Creation Error: ${JSON.stringify(err, null, 2)}\n\n`);
 					});
 
 				motor
@@ -81,24 +81,27 @@
 						vehicleId: env.testing.rvId1,
 					})
 					.then((res) => {
-						appendSuccessToConsole(`Vehicle: ${JSON.stringify(res, null, 2)}\n\n`);
+						logSuccess(`Vehicle: ${JSON.stringify(res, null, 2)}\n\n`);
 					})
 					.catch((err) => {
-						appendErrorToConsole(`Error fetching vehicle: ${JSON.stringify(err, null, 2)}\n\n`);
+						logError(`Error fetching vehicle: ${JSON.stringify(err, null, 2)}\n\n`);
 					});
+			}).catch((err) => {
+				// Make sure you have a valid env.json file in the root directory of the repository.
+				logError(`Error reading env.json - Make sure environment file is present in the root directory of the repository. If not, create one from env.example.json.\n\n`);
 			});
 	</script>
 
 	<script>
-		function appendToConsole(value) {
-			document.getElementById("console").innerHTML = "<span class='info'>" + document.getElementById("console").innerHTML + value + "</span>\n";
+		function log(value) {
+			document.getElementById("Console").innerHTML = "<span class='info'>" + document.getElementById("console").innerHTML + value + "</span>\n";
 		}
 
-		function appendSuccessToConsole(value) {
+		function logSuccess(value) {
 			document.getElementById("console").innerHTML = "<span class='success'>" + document.getElementById("console").innerHTML + value + "</span>\n";
 		}
 
-		function appendErrorToConsole(value) {
+		function logError(value) {
 			document.getElementById("console").innerHTML = "<span class='error'>" + document.getElementById("console").innerHTML + value + "</span>\n";
 		}
 	</script>

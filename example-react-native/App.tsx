@@ -9,16 +9,20 @@ import env from './env.json';
 
 const App = () => {
     let auth = new motorJS.Auth({
-        orgId: env.init.orgId,
-        region: env.init.region,
-        email: env.auth.email,
-        password: env.auth.password,
-        accountType: env.auth.accountType,
+        orgId: env.init.orgId, // <-- Replace with your organisation ID
+        region: env.init.region, // <-- Replace with your region
+        email: env.auth.email, // <-- Replace with users/drivers email
+        password: env.auth.password, // <-- Replace with users/drivers password
+        accountType: env.auth.accountType, // <-- Can be either "user" or "driver"
     });
 
-    auth.login().then(res => {
-        console.log(res);
-    });
+    auth.login()
+        .then(res => {
+            console.log(res);
+        })
+        .catch(err => {
+            console.log(err);
+        });
 
     let motor = new motorJS.Motor({
         orgId: env.init.orgId,
@@ -27,9 +31,14 @@ const App = () => {
         auth: auth,
     });
 
-    motor.orgSettings().then(res => {
-        console.log(res);
-    });
+    motor
+        .orgSettings()
+        .then(res => {
+            console.log(res);
+        })
+        .catch(err => {
+            console.log(err);
+        });
 
     motor
         .getDriver({
@@ -38,19 +47,25 @@ const App = () => {
         .then(res => {
             console.log(res.fullName());
             console.log(res.firstName);
+        })
+        .catch(err => {
+            console.log(err);
         });
 
     motor
         .createDriver({
             driver: {
-                firstName: 'Test',
-                lastName: 'User',
-                email: 'testuser@gmail.com',
+                firstName: 'FirstName',
+                lastName: 'LastName',
+                email: 'someEmail@org.com',
             },
-            password: 'Qwerty@123',
+            password: '$tr0ngP@ssw0rd',
         })
         .then(res => {
             res.fullName();
+        })
+        .catch(err => {
+            console.log(err);
         });
 
     return (
