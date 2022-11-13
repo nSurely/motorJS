@@ -6,8 +6,8 @@
 		<script type="text/javascript" src="../dist/web/index.js"></script>
 	</head>
 	<body>
-		<h1>Inaza JS SDK Example</h1>
-		<pre disabled style="width: 100%; height: 100vh" id="console"></pre>
+		<h1 style="text-align: center; font-family: Arial, Helvetica, sans-serif">Inaza JS SDK Example</h1>
+		<pre disabled id="console"></pre>
 	</body>
 	<script type="text/javascript">
 		// Read credentials from environment file. Make sure environment file is present in the root directory of the repository. If not, create one from env.example.json.
@@ -46,7 +46,7 @@
 					orgId: env.init.orgId,
 					region: env.init.region,
 					storage: window.localStorage, // <-- Set storage to localStorage to persist the user session
-					auth: authApikey, // <-- Pass the Auth object here
+					auth: authJWT, // <-- Pass the Auth object here
 				});
 
 				motor
@@ -99,10 +99,14 @@
 				// List multiple drivers. Uses asyncGenerator for multiple async calls.
 				// Below example shows how to loop throght the listDrives response.
 				async function listDrivers() {
-					for await (let driver of motor.listDrivers({
-						maxRecords: 125,
-					})) {
-						logSuccess(`Driver Fetched: ${JSON.stringify(driver.fullName(), null, 2)}\n`);
+					try {
+						for await (let driver of motor.listDrivers({
+							maxRecords: 125,
+						})) {
+							logSuccess(`Driver Fetched: ${JSON.stringify(driver.fullName(), null, 2)}\n`);
+						}
+					} catch (err) {
+						logError(`Error fetching drivers: ${JSON.stringify(err, null, 2)}\n\n`);
 					}
 				}
 
