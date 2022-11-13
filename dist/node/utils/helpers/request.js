@@ -23,7 +23,6 @@ function isJsonString(str = "") {
  */
 function parseJSON({ response, method, url, params }) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log("Status: " + response.status);
         if (response.status >= 200 && response.status < 300) {
             if (response.status === 204 || response.status === 205) {
                 return null;
@@ -43,8 +42,7 @@ function parseJSON({ response, method, url, params }) {
             case 403:
             case 404:
                 // do nothing. Remove below console.log
-                console.error({
-                    message: "API call failed",
+                console.error("API call failed", {
                     url: url,
                     method: method,
                     status: response.status,
@@ -53,8 +51,7 @@ function parseJSON({ response, method, url, params }) {
                 });
                 break;
             default:
-                console.error({
-                    message: "API call failed",
+                console.error("API call failed", {
                     url: url,
                     method: method,
                     status: response.status,
