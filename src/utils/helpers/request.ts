@@ -10,9 +10,7 @@ function isJsonString(str = "") {
 /**
  * Parses the JSON returned by a network request
  */
-async function parseJSON({ response, method, url, params }: { response: Response; method: string; url?: string; params?: object }) : Promise<any> {
-	console.log("Status: " + response.status);
-
+async function parseJSON({ response, method, url, params }: { response: Response; method: string; url?: string; params?: object }): Promise<any> {
 	if (response.status >= 200 && response.status < 300) {
 		if (response.status === 204 || response.status === 205) {
 			return null;
@@ -36,9 +34,8 @@ async function parseJSON({ response, method, url, params }: { response: Response
 		case 401:
 		case 403:
 		case 404:
-            // do nothing. Remove below console.log
-			console.error({
-				message: "API call failed",
+			// do nothing. Remove below console.log
+			console.error("API call failed", {
 				url: url,
 				method: method,
 				status: response.status,
@@ -48,8 +45,7 @@ async function parseJSON({ response, method, url, params }: { response: Response
 			break;
 
 		default:
-			console.error({
-				message: "API call failed",
+			console.error("API call failed", {
 				url: url,
 				method: method,
 				status: response.status,
