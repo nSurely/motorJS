@@ -16,7 +16,7 @@
 			.then((env) => {
 				// Initialise Auth
 				// Option 1 - User user / driver credentials
-				let auth1 = new motorJS.Auth({
+				let authJWT = new motorJS.Auth({
 					orgId: env.init.orgId, // <-- Replace with your organisation ID
 					region: env.init.region, // <-- Replace with your region
 					email: env.auth.email, // <-- Replace with users/drivers email
@@ -25,7 +25,7 @@
 				});
 
 				// Optional: Try logging in beforehand to see if the credentials are correct. If not, Motor SDK will try to login automatically when you use it.
-				auth1
+				authJWT
 					.login()
 					.then((res) => {
 						logSuccess(`Login successful. Token: ${JSON.stringify(res, null, 2)}\n\n`);
@@ -35,10 +35,10 @@
 					});
 
 				// Option 2 - Use API key
-				let auth2 = new motorJS.Auth({
+				let authApikey = new motorJS.Auth({
 					orgId: env.init.orgId, // <-- Replace with your organisation ID
 					region: env.init.region, // <-- Replace with your region
-					apiKey: "pk:sk",
+					apiKey: env.auth.apiKey,
 				});
 
 				// Initialise the Motor SDK and pass the Auth object
@@ -46,7 +46,7 @@
 					orgId: env.init.orgId,
 					region: env.init.region,
 					storage: window.localStorage, // <-- Set storage to localStorage to persist the user session
-					auth: auth2, // <-- Pass the Auth object here
+					auth: authApikey, // <-- Pass the Auth object here
 				});
 
 				motor
