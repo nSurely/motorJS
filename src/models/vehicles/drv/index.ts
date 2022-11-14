@@ -7,7 +7,7 @@ import { Vehicle } from "../rv";
 import { PrivateApiHandler } from "../../custom";
 
 export class DriverVehicle extends PrivateApiHandler {
-    driverId?: string;
+	driverId?: string;
 	apiPath?: string;
 	externalId?: string;
 	displayName?: string;
@@ -60,6 +60,7 @@ export class DriverVehicle extends PrivateApiHandler {
 			endpoint: `drivers/${this.driverId}/vehicles/${this.id}`,
 		});
 
+		raw.registeredVehicle = raw.registeredVehicle ? new Vehicle(raw.registeredVehicle) : undefined;
 		raw.api = this.api;
 
 		Object.assign(this, raw);

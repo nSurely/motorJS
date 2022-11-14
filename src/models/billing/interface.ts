@@ -1,35 +1,18 @@
-import { DriverBase } from "../drivers/interface";
+import { BillingAccountBase } from "./accounts/interface";
 
-export interface BillingAccountBase {
-    adrLine1?:        string;
-    adrLine2?:        string;
-    adrLine3?:        string;
-    county?:          string;
-    province?:        string;
-    postcode?:        string;
-    externalId?:      string;
-    adrSameAsHome?:   boolean;
-    expiry?:          Date;
-    updatedAt?:       Date;
-    isActive?:        boolean;
-    isPrimary?:       boolean;
-    thirdPartyId?:    string;
-    card?:            CardBase;
-    id?:              string;
-    createdAt?:       Date;
-    countryIsoCode?:  string;
-    currencyIsoCode?: string;
-    accountType?:     string;
-    driver?:          DriverBase;
+export interface BillingEventBase {
+	externalId?: string;
+	paymentId?: string;
+	amount?: number;
+	message?: string;
+	paymentOut?: boolean;
+	paymentDate?: Date;
+	status?: string;
+	approvalAt?: Date;
+	policyId?: string;
+	type?: string;
+	id?: string;
+	createdAt?: Date;
+	billingAccount?: BillingAccountBase;
+	approvalBy?: string;
 }
-
-export interface CardBase {
-    name?:         string;
-    number?:       string;
-    exp?:          Date;
-    cvv?:          string;
-    lastFour?:     string;
-    updatedAt?:    Date;
-    thirdPartyId?: string;
-}
-
