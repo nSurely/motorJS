@@ -1,0 +1,1 @@
+{"version":3,"file":"index.d.ts","sourceRoot":"","sources":["../../../../../src/models/policy/duration/index.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,aAAa,CAAC;AAEvC,qBAAa,cAAc;IAC1B,KAAK,CAAC,EAAE,IAAI,CAAC;IACb,GAAG,CAAC,EAAE,IAAI,CAAC;IACX,eAAe,CAAC,EAAE,MAAM,CAAC;gBAEb,QAAQ,EAAE,QAAQ;IAI9B,SAAS;CAKT"}

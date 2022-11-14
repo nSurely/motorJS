@@ -42,6 +42,7 @@ class DriverVehicle extends custom_1.PrivateApiHandler {
                 method: "GET",
                 endpoint: `drivers/${this.driverId}/vehicles/${this.id}`,
             });
+            raw.registeredVehicle = raw.registeredVehicle ? new rv_1.Vehicle(raw.registeredVehicle) : undefined;
             raw.api = this.api;
             Object.assign(this, raw);
         });
