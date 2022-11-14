@@ -82,7 +82,7 @@ class APIHandlerNoAuth {
         return __awaiter(this, void 0, void 0, function* () {
             this.orgDataRefreshing = true;
             this.orgData = yield this.request({
-                endpoint: `/public/${this.orgId}`,
+                urlOverride: `${this.url}/public/${this.orgId}`,
                 method: "GET",
             });
             this.orgDataRefreshing = false;

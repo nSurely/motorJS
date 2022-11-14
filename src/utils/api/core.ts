@@ -53,7 +53,7 @@ export class APIHandlerNoAuth {
 		urlOverride,
 	}: {
 		method: string;
-		endpoint: string;
+		endpoint?: string;
 		params?: object;
 		data?: any;
 		headers?: any;
@@ -84,7 +84,7 @@ export class APIHandlerNoAuth {
 	async refreshOrgData() {
 		this.orgDataRefreshing = true;
 		this.orgData = await this.request({
-			endpoint: `/public/${this.orgId}`,
+			urlOverride: `${this.url}/public/${this.orgId}`,
 			method: "GET",
 		});
 

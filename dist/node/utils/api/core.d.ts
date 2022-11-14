@@ -15,7 +15,7 @@ export declare class APIHandlerNoAuth {
     });
     request({ method, endpoint, params, data, headers, urlOverride, }: {
         method: string;
-        endpoint: string;
+        endpoint?: string;
         params?: object;
         data?: any;
         headers?: any;
