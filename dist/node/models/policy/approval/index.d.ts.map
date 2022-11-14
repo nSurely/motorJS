@@ -1,0 +1,1 @@
+{"version":3,"file":"index.d.ts","sourceRoot":"","sources":["../../../../../src/models/policy/approval/index.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,aAAa,CAAC;AAEvC,qBAAa,cAAc;IAC1B,UAAU,CAAC,EAAE,IAAI,CAAC;IAClB,YAAY,CAAC,EAAE,OAAO,CAAC;IACvB,UAAU,CAAC,EAAE,IAAI,CAAC;gBAEN,QAAQ,EAAE,QAAQ;IAI3B,UAAU;CAGb"}

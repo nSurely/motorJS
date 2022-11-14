@@ -1,0 +1,1 @@
+{"version":3,"file":"index.d.ts","sourceRoot":"","sources":["../../../../../src/models/policy/cancellation/index.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,YAAY,EAAE,MAAM,aAAa,CAAC;AAE3C,qBAAa,kBAAkB;IAC9B,WAAW,CAAC,EAAE,IAAI,CAAC;IACnB,OAAO,CAAC,EAAE,MAAM,CAAC;gBAEL,YAAY,EAAE,YAAY;IAItC,WAAW;CAGX"}

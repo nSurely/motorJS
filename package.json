@@ -27,9 +27,10 @@
 		"webpack-cli": "^4.10.0"
 	},
 	"scripts": {
-		"build": "tsc",
-		"build-watch": "tsc -w",
+		"build": "tsc --build --clean",
+		"build-watch": "tsc --build --clean && tsc -w",
 		"build-web": "webpack",
+		"build-web-watch": "webpack -w",
 		"test": "jest"
 	},
 	"files": [
