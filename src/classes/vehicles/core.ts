@@ -103,6 +103,7 @@ export class Vehicles {
 		});
 
 		let instance = new Vehicle(raw);
+		instance.api = this.api;
 
 		return instance;
 	}

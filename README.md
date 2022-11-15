@@ -52,11 +52,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Initialise Auth
 let auth = new motorJS.Auth({
-	orgId: "your-org-id",
-	region: "your-region",
-	email: "some-user@org.com",
-	password: "$tr0ngP@ssw0rd",
-	accountType: "user/driver",
+	orgId: "<< your-org-id >>",
+	region: "<< your-region >>",
+	email: "<< some-user@org.com >>",
+	password: "<< $tr0ngP@ssw0rd >>",
+	accountType: "<< user or driver >>",
 });
 
 // Login
@@ -66,8 +66,8 @@ auth.login().then((res) => {
 
 // Initialise the Motor SDK and pass the Auth object
 let motor = motorJS.Motor({
-	orgId: "your-org-id",
-	region: "your-region",
+	orgId: "<< your-org-id >>",
+	region: "<< your-region >>",
 	// Pass AsyncStorage for react-native.
 	// Else for any web-based project that runs in a browser, pass window.localStorage. eg. storage: window.localStorage
 	// You can keep this as null, however data such as bearerToken and refershToken will not be persisted when application is closed and re-opened.
@@ -82,7 +82,7 @@ motor.orgSettings().then((res) => {
 
 motor
 	.getDriver({
-		driverId: 'driver-id',
+		driverId: '<< driver-id >>',
 	})
 	.then((driver) => {
 		console.log(driver.fullName());

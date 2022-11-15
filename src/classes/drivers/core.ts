@@ -2,6 +2,7 @@ import StorageManager from "../../utils/storage";
 import { APIHandlerAuth, APIHandlerNoAuth } from "../../utils/api";
 import { Driver } from "../../models/drivers";
 import { DriverBase } from "../../models/drivers/interface";
+import { Search } from "../../utils/search";
 
 export class Drivers {
 	storageManager!: StorageManager;
@@ -79,22 +80,22 @@ export class Drivers {
 		isActive,
 		maxRecords,
 	}: {
-		dob?: string;
-		email?: string;
-		firstName?: string;
-		lastName?: string;
-		externalId?: string;
+		dob?: string | Search;
+		email?: string | Search;
+		firstName?: string | Search;
+		lastName?: string | Search;
+		externalId?: string | Search;
 		isActive?: boolean;
 		maxRecords?: number;
 	}): AsyncGenerator<Driver> {
 		let count = 0;
 
 		let params = {};
-		dob ? (params = { ...params, dob }) : null;
-		email ? (params = { ...params, email }) : null;
-		firstName ? (params = { ...params, firstName }) : null;
-		lastName ? (params = { ...params, lastName }) : null;
-		externalId ? (params = { ...params, externalId }) : null;
+		dob ? (params = { ...params, dob: String(dob) }) : null;
+		email ? (params = { ...params, email: String(email) }) : null;
+		firstName ? (params = { ...params, firstName: String(firstName) }) : null;
+		lastName ? (params = { ...params, lastName: String(lastName) }) : null;
+		externalId ? (params = { ...params, externalId: String(externalId) }) : null;
 		isActive ? (params = { ...params, isActive }) : null;
 
 		for await (let raw of this.api.batchFetch({
@@ -105,6 +106,8 @@ export class Drivers {
 				break;
 			}
 			let instance = new Driver(raw);
+			instance.api = this.api;
+
 			yield instance;
 			count++;
 		}
@@ -132,6 +135,7 @@ export class Drivers {
 		});
 
 		let instance = new Driver(raw);
+		instance.api = this.api;
 
 		return instance;
 	}

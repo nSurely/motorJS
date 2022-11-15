@@ -74,11 +74,11 @@ class Drivers {
             var e_1, _a;
             let count = 0;
             let params = {};
-            dob ? (params = Object.assign(Object.assign({}, params), { dob })) : null;
-            email ? (params = Object.assign(Object.assign({}, params), { email })) : null;
-            firstName ? (params = Object.assign(Object.assign({}, params), { firstName })) : null;
-            lastName ? (params = Object.assign(Object.assign({}, params), { lastName })) : null;
-            externalId ? (params = Object.assign(Object.assign({}, params), { externalId })) : null;
+            dob ? (params = Object.assign(Object.assign({}, params), { dob: String(dob) })) : null;
+            email ? (params = Object.assign(Object.assign({}, params), { email: String(email) })) : null;
+            firstName ? (params = Object.assign(Object.assign({}, params), { firstName: String(firstName) })) : null;
+            lastName ? (params = Object.assign(Object.assign({}, params), { lastName: String(lastName) })) : null;
+            externalId ? (params = Object.assign(Object.assign({}, params), { externalId: String(externalId) })) : null;
             isActive ? (params = Object.assign(Object.assign({}, params), { isActive })) : null;
             try {
                 for (var _b = __asyncValues(this.api.batchFetch({
@@ -90,6 +90,7 @@ class Drivers {
                         break;
                     }
                     let instance = new drivers_1.Driver(raw);
+                    instance.api = this.api;
                     yield yield __await(instance);
                     count++;
                 }
@@ -121,6 +122,7 @@ class Drivers {
                 },
             });
             let instance = new drivers_1.Driver(raw);
+            instance.api = this.api;
             return instance;
         });
     }

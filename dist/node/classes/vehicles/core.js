@@ -104,6 +104,7 @@ class Vehicles {
                 },
             });
             let instance = new rv_1.Vehicle(raw);
+            instance.api = this.api;
             return instance;
         });
     }

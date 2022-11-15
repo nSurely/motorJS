@@ -4,6 +4,8 @@ import { RiskBase } from "../risk/interface";
 import { PolicyBase } from "../policy/interface";
 import { APIHandlerAuth, APIHandlerNoAuth } from "../../utils/api";
 import { PrivateApiHandler } from "../custom";
+import { Vehicle } from "../vehicles/rv";
+import { BillingAccount } from "../billing/accounts";
 export declare class Driver extends PrivateApiHandler {
     api: APIHandlerAuth | APIHandlerNoAuth;
     adrLine1?: string;
@@ -53,5 +55,9 @@ export declare class Driver extends PrivateApiHandler {
         persist?: boolean;
         fields?: Object;
     }): Promise<void>;
+    listVehicles(): Promise<Vehicle[]>;
+    getDisplay(): string;
+    telematicsId(): string | undefined;
+    listBillingAccounts(primaryOnly?: boolean): Promise<BillingAccount[]>;
 }
 //# sourceMappingURL=index.d.ts.map

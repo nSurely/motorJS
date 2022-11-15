@@ -7,7 +7,9 @@ import motorJS from 'motorJS';
 import env from './env.json';
 
 const App = () => {
-    let auth = new motorJS.Auth({
+    // Initialise Auth
+    // Option 1 - User user / driver credentials
+    let authJWT = new motorJS.Auth({
         orgId: env.init.orgId, // <-- Replace with your organisation ID
         region: env.init.region, // <-- Replace with your region
         email: env.auth.email, // <-- Replace with users/drivers email
@@ -15,19 +17,28 @@ const App = () => {
         accountType: env.auth.accountType, // <-- Can be either "user" or "driver"
     });
 
-    auth.login()
+    // Optional: Try logging in beforehand to see if the credentials are correct. If not, Motor SDK will try to login automatically when you use it.
+    authJWT
+        .login()
         .then(res => {
-            console.log(res);
+            console.log('Logged in successfully. Toe token:', res);
         })
         .catch(err => {
-            console.log(err);
+            console.error('Failed to login:', err);
         });
+
+    // Option 2 - Use API key
+    let authApikey = new motorJS.Auth({
+        orgId: env.init.orgId, // <-- Replace with your organisation ID
+        region: env.init.region, // <-- Replace with your region
+        apiKey: env.auth.apiKey,
+    });
 
     let motor = new motorJS.Motor({
         orgId: env.init.orgId,
         region: env.init.region,
         storage: window.localStorage,
-        auth: auth,
+        auth: authApikey,
     });
 
     motor
@@ -66,6 +77,55 @@ const App = () => {
         .catch(err => {
             console.log(err);
         });
+
+    motor
+        .request({
+            method: 'GET',
+            path: `/registered-vehicles/${env.testing.rvId1}/utilization`,
+            params: {
+                start: '2022-01-01',
+                end: '2022-01-31',
+            },
+        })
+        .then(res => {
+            console.log(res);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+
+    let a = new motorJS.Search({
+        operator: 'ilike',
+        value: 'adesh',
+    });
+    console.log(String(a));
+
+    // List multiple drivers. Uses asyncGenerator for multiple async calls.
+    // Below example shows how to loop throght the listDrives response.
+    (async () => {
+        try {
+            for await (let driver of motor.listDrivers({
+                maxRecords: 5,
+                email: new motorJS.Search({
+                    operator: 'ilike',
+                    value: 'adesh',
+                }).toString(),
+            })) {
+                // Each driver is a driver object. You can use the driver object to call other methods.
+                console.log(driver.fullName());
+
+                // Example: Get the drivers regstered vehicles
+                driver.listVehicles().then(vehicles => {
+                    vehicles.forEach(vehicle => {
+                        // You can also use the vehicle object to call other methods.
+                        console.log(vehicle.getDisplay());
+                    });
+                });
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    })();
 
     return (
         <div className="App">

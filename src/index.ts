@@ -7,6 +7,7 @@ import Drivers from "./classes/drivers";
 import Vehicles from "./classes/vehicles";
 import Fleets from "./classes/fleets";
 import { OrgSettings } from "./utils/api/org";
+import { Search } from "./utils/search";
 
 /**
  * Entry point for the SDK to interact with the Inaza API.
@@ -117,6 +118,25 @@ class Motor {
 
 		return this.api.orgData;
 	}
+
+	async request({
+		method,
+		path,
+		params,
+		data
+	}: {
+		method: string;
+		path?: string;
+		params?: object;
+		data?: any;
+	}) {
+		return await this.api.request({
+			method,
+			endpoint: path,
+			params,
+			data
+		});
+	}
 }
 
 interface Motor extends Drivers, Vehicles, Fleets {}
@@ -125,6 +145,7 @@ applyMixins(Motor, [Drivers, Vehicles, Fleets]);
 let motorJS = {
 	Motor,
 	Auth,
+	Search
 };
 
 // For webpack

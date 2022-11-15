@@ -11,6 +11,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Driver = void 0;
 const custom_1 = require("../custom");
+const accounts_1 = require("../billing/accounts");
+const drv_1 = require("../vehicles/drv");
 class Driver extends custom_1.PrivateApiHandler {
     constructor(driver) {
         super();
@@ -72,6 +74,39 @@ class Driver extends custom_1.PrivateApiHandler {
                 persist: persist,
                 fields: fields,
                 exclude: ["fleets", "createdAt"],
+            });
+        });
+    }
+    listVehicles() {
+        return __awaiter(this, void 0, void 0, function* () {
+            let vehiclesRaw = yield this.api.request({
+                method: "GET",
+                endpoint: `drivers/${this.id}/vehicles`,
+            });
+            return vehiclesRaw.map((vehicle) => {
+                let instance = new drv_1.DriverVehicle(vehicle);
+                instance.api = this.api;
+                return instance;
+            });
+        });
+    }
+    getDisplay() {
+        return this.fullName();
+    }
+    telematicsId() {
+        return this.sourceId;
+    }
+    listBillingAccounts(primaryOnly = false) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this._checkId();
+            let billingAccountsRaw = yield this.api.request({
+                method: "GET",
+                endpoint: `drivers/${this.id}/billing-accounts`,
+            });
+            return billingAccountsRaw.map((billingAccount) => {
+                let instance = new accounts_1.BillingAccount(billingAccount);
+                instance.api = this.api;
+                return instance;
             });
         });
     }

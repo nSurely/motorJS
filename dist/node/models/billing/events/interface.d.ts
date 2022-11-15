@@ -1,4 +1,4 @@
-import { BillingAccountBase } from "./accounts/interface";
+import { BillingAccountBase } from "../accounts/interface";
 export interface BillingEventBase {
     externalId?: string;
     paymentId?: string;
