@@ -1,7 +1,9 @@
 import { BillingAccountBase, CardBase } from "./interface";
 import { DriverBase } from "../../drivers/interface";
+import { APIHandlerAuth, APIHandlerNoAuth } from "../../../utils/api";
 
 export class BillingAccount {
+	api?: APIHandlerAuth | APIHandlerNoAuth;
 	adrLine1?: string;
 	adrLine2?: string;
 	adrLine3?: string;
@@ -26,7 +28,7 @@ export class BillingAccount {
 	constructor(billingAccount: BillingAccountBase) {
 		Object.assign(this, billingAccount);
 	}
-    
+
 	getDisplay(): string {
 		if (!this.card) {
 			return "Unknown";
