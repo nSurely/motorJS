@@ -29,8 +29,8 @@
 	"scripts": {
 		"build": "rm -rf ./dist/node && tsc --build",
 		"build-watch": "rm -rf ./dist/node && tsc -w",
-		"build-web": "webpack",
-		"build-web-watch": "webpack -w",
+		"build-webpack": "webpack",
+		"build-webpack-watch": "webpack -w",
 		"test": "jest"
 	},
 	"files": [

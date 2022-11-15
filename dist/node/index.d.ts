@@ -6,6 +6,7 @@ import Drivers from "./classes/drivers";
 import Vehicles from "./classes/vehicles";
 import Fleets from "./classes/fleets";
 import { OrgSettings } from "./utils/api/org";
+import { Search } from "./utils/search";
 /**
  * Entry point for the SDK to interact with the Inaza API.
  * @break
@@ -90,12 +91,19 @@ declare class Motor {
         storage: any;
     });
     orgSettings(): Promise<OrgSettings | undefined>;
+    request({ method, path, params, data }: {
+        method: string;
+        path?: string;
+        params?: object;
+        data?: any;
+    }): Promise<any>;
 }
 interface Motor extends Drivers, Vehicles, Fleets {
 }
 declare let motorJS: {
     Motor: typeof Motor;
     Auth: typeof Auth;
+    Search: typeof Search;
 };
 export default motorJS;
 //# sourceMappingURL=index.d.ts.map

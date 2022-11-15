@@ -1,6 +1,8 @@
 import { BillingAccountBase, CardBase } from "./interface";
 import { DriverBase } from "../../drivers/interface";
+import { APIHandlerAuth, APIHandlerNoAuth } from "../../../utils/api";
 export declare class BillingAccount {
+    api?: APIHandlerAuth | APIHandlerNoAuth;
     adrLine1?: string;
     adrLine2?: string;
     adrLine3?: string;

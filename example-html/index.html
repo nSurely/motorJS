@@ -46,7 +46,7 @@
 					orgId: env.init.orgId,
 					region: env.init.region,
 					storage: window.localStorage, // <-- Set storage to localStorage to persist the user session
-					auth: authJWT, // <-- Pass the Auth object here
+					auth: authApikey, // <-- Pass the Auth object here
 				});
 
 				motor
@@ -98,20 +98,26 @@
 
 				// List multiple drivers. Uses asyncGenerator for multiple async calls.
 				// Below example shows how to loop throght the listDrives response.
-				async function listDrivers() {
+				(async () => {
 					try {
 						for await (let driver of motor.listDrivers({
 							maxRecords: 125,
 						})) {
+							// Each driver is a driver object. You can use the driver object to call other methods.
 							logSuccess(`Driver Fetched: ${JSON.stringify(driver.fullName(), null, 2)}\n`);
+
+							// Example: Get the drivers regstered vehicles
+							driver.listVehicles().then((vehicles) => {
+								vehicles.forEach((vehicle) => {
+									// You can also use the vehicle object to call other methods.
+									logSuccess(`Vehicle Fetched: ${JSON.stringify(vehicle.getDisplay(), null, 2)}\n`);
+								});
+							});
 						}
 					} catch (err) {
-						logError(`Error fetching drivers: ${JSON.stringify(err, null, 2)}\n\n`);
+						logError(`Error listing drivers: ${JSON.stringify(err, null, 2)}\n\n`);
 					}
-				}
-
-				// Call the function to list drivers
-				listDrivers();
+				})();
 			})
 			.catch((err) => {
 				// Make sure you have a valid env.json file in the root directory of the repository.

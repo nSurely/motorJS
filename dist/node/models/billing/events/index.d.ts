@@ -1,5 +1,5 @@
-import { APIHandlerAuth, APIHandlerNoAuth } from "../../utils/api";
-import { BillingAccountBase } from "./accounts/interface";
+import { APIHandlerAuth, APIHandlerNoAuth } from "../../../utils/api";
+import { BillingAccountBase } from "../accounts/interface";
 import { BillingEventBase } from "./interface";
 export declare class BillingEvent {
     api: APIHandlerAuth | APIHandlerNoAuth;

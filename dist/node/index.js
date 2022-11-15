@@ -20,6 +20,7 @@ const helpers_1 = require("./utils/helpers");
 const drivers_1 = __importDefault(require("./classes/drivers"));
 const vehicles_1 = __importDefault(require("./classes/vehicles"));
 const fleets_1 = __importDefault(require("./classes/fleets"));
+const search_1 = require("./utils/search");
 /**
  * Entry point for the SDK to interact with the Inaza API.
  * @break
@@ -120,11 +121,22 @@ class Motor {
             return this.api.orgData;
         });
     }
+    request({ method, path, params, data }) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.api.request({
+                method,
+                endpoint: path,
+                params,
+                data
+            });
+        });
+    }
 }
 (0, helpers_1.applyMixins)(Motor, [drivers_1.default, vehicles_1.default, fleets_1.default]);
 let motorJS = {
     Motor,
     Auth: auth_1.default,
+    Search: search_1.Search
 };
 // For webpack
 Function("r", "motorJS = r")(motorJS);
