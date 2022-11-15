@@ -4,6 +4,9 @@ import { RiskBase } from "../risk/interface";
 import { PolicyBase } from "../policy/interface";
 import { APIHandlerAuth, APIHandlerNoAuth } from "../../utils/api";
 import { PrivateApiHandler } from "../custom";
+import { Vehicle } from "../vehicles/rv";
+import { BillingAccount } from "../billing/accounts";
+import { DriverVehicle } from "../vehicles/drv";
 
 export class Driver extends PrivateApiHandler {
 	api!: APIHandlerAuth | APIHandlerNoAuth;
@@ -80,7 +83,6 @@ export class Driver extends PrivateApiHandler {
 		});
 
 		raw.api = this.api;
-
 		Object.assign(this, raw);
 	}
 
@@ -95,7 +97,7 @@ export class Driver extends PrivateApiHandler {
 
 	async save(fields: Object = {}) {
 		this._checkId();
-		
+
 		await this._save({
 			endpoint: `drivers/${this.id}`,
 			fields: fields,
@@ -111,5 +113,39 @@ export class Driver extends PrivateApiHandler {
 			exclude: ["fleets", "createdAt"],
 		});
 	}
-}
 
+	async listVehicles(): Promise<Vehicle[]> {
+		let vehiclesRaw = await this.api.request({
+			method: "GET",
+			endpoint: `drivers/${this.id}/vehicles`,
+		});
+		return vehiclesRaw.map((vehicle: any) => {
+			let instance = new DriverVehicle(vehicle);
+			instance.api = this.api;
+			return instance;
+		});
+	}
+
+	getDisplay() {
+		return this.fullName();
+	}
+
+	telematicsId() {
+		return this.sourceId;
+	}
+
+	async listBillingAccounts(primaryOnly: boolean = false): Promise<BillingAccount[]> {
+		this._checkId();
+
+		let billingAccountsRaw = await this.api.request({
+			method: "GET",
+			endpoint: `drivers/${this.id}/billing-accounts`,
+		});
+
+		return billingAccountsRaw.map((billingAccount: any) => {
+			let instance = new BillingAccount(billingAccount);
+			instance.api = this.api;
+			return instance;
+		});
+	}
+}
