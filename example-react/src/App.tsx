@@ -78,27 +78,23 @@ const App = () => {
             console.log(err);
         });
 
-    motor
-        .request({
+    (async () => {
+        let response = await motor.request({
             method: 'GET',
             path: `/registered-vehicles/${env.testing.rvId1}/utilization`,
             params: {
                 start: '2022-01-01',
                 end: '2022-01-31',
             },
-        })
-        .then(res => {
-            console.log(res);
-        })
-        .catch(err => {
-            console.log(err);
         });
 
-    let a = new motorJS.Search({
-        operator: 'ilike',
-        value: 'adesh',
-    });
-    console.log(String(a));
+        // loop through each object in the response
+        for (let week of response) {
+            console.log(`${week.utilisation * 100}%`); // 43%
+            console.log(`${week.distance.total}km`); // 123km
+        }
+
+    })();
 
     // List multiple drivers. Uses asyncGenerator for multiple async calls.
     // Below example shows how to loop throght the listDrives response.
@@ -106,9 +102,9 @@ const App = () => {
         try {
             for await (let driver of motor.listDrivers({
                 maxRecords: 5,
-                email: new motorJS.Search({
-                    operator: 'ilike',
-                    value: 'adesh',
+                dob: new motorJS.Search({
+                    operator: 'eq',
+                    value: '2022-08-02',
                 }).toString(),
             })) {
                 // Each driver is a driver object. You can use the driver object to call other methods.

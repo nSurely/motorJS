@@ -48,7 +48,7 @@ import { Search } from "./utils/search";
  * });
  *
  * // Initialise the Motor SDK and pass the Auth object
- * let motor = motorJS.Motor({
+ * let motor = new motorJS.Motor({
  * 	orgId: "your-org-id",
  * 	region: "your-region",
  * 	// Pass AsyncStorage for react-native.
