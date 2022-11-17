@@ -24,7 +24,3 @@ export interface DriverRegisteredVehicleBase {
 	driver?: DriverBase;
 	registeredVehicle?: RegisteredVehicleBase;
 }
-
-export interface DriverRegisteredVehicleWithDriverId extends DriverRegisteredVehicleBase {
-    driverId: string;
-}

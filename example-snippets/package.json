@@ -1,0 +1,9 @@
+{
+	"name": "example-snippets",
+	"version": "0.1.0",
+	"private": true,
+	"dependencies": {
+		"typescript": "^4.8.4",
+		"motorJS": "file:.."
+	}
+}

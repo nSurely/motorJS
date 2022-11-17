@@ -69,7 +69,7 @@ class Drivers {
             return instance;
         });
     }
-    listDrivers({ dob, email, firstName, lastName, externalId, isActive, maxRecords, }) {
+    listDrivers({ isActive, dob, email, firstName, lastName, externalId, maxRecords, }) {
         return __asyncGenerator(this, arguments, function* listDrivers_1() {
             var e_1, _a;
             let count = 0;

@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Vehicle = void 0;
 const custom_1 = require("../../custom");
 const v_1 = require("../v");
+const drv_1 = require("../drv");
 class Vehicle extends custom_1.PrivateApiHandler {
     constructor(vehicle) {
         super();
@@ -31,6 +32,26 @@ class Vehicle extends custom_1.PrivateApiHandler {
         else {
             return this.regPlate || "Unknown";
         }
+    }
+    addDrv({ driverId, drv }) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this._checkId();
+            if (!(drv === null || drv === void 0 ? void 0 : drv.api)) {
+                drv.api = this.api;
+            }
+            return yield drv.create({ driverId: driverId, registeredVehicleId: this.id });
+        });
+    }
+    addDriver({ driverId, displayName, isOwner, isPrimaryDriver }) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let drv = new drv_1.DriverVehicle({
+                displayName: displayName,
+                isOwner: isOwner,
+                isPrimaryDriver: isPrimaryDriver,
+            });
+            drv.api = this.api;
+            return yield this.addDrv({ driverId: driverId, drv: drv });
+        });
     }
     refresh() {
         return __awaiter(this, void 0, void 0, function* () {

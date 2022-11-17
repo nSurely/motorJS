@@ -21,7 +21,7 @@ const App = () => {
     authJWT
         .login()
         .then(res => {
-            console.log('Logged in successfully. Toe token:', res);
+            console.log('Logged in successfully. Token:', res);
         })
         .catch(err => {
             console.error('Failed to login:', err);
@@ -62,13 +62,15 @@ const App = () => {
             console.log(err);
         });
 
+    let driver = new motorJS.models.Driver({
+        firstName: 'FirstName',
+        lastName: 'LastName',
+        email: 'someEmail@org.com',
+    });
+
     motor
         .createDriver({
-            driver: {
-                firstName: 'FirstName',
-                lastName: 'LastName',
-                email: 'someEmail@org.com',
-            },
+            driver: driver,
             password: '$tr0ngP@ssw0rd',
         })
         .then(res => {
@@ -93,19 +95,18 @@ const App = () => {
             console.log(`${week.utilisation * 100}%`); // 43%
             console.log(`${week.distance.total}km`); // 123km
         }
-
     })();
 
-    // List multiple drivers. Uses asyncGenerator for multiple async calls.
-    // Below example shows how to loop throght the listDrives response.
     (async () => {
+        // List multiple drivers. Uses asyncGenerator for multiple async calls.
+        // Below example shows how to loop throght the listDrives response.
         try {
             for await (let driver of motor.listDrivers({
                 maxRecords: 5,
                 dob: new motorJS.Search({
                     operator: 'eq',
                     value: '2022-08-02',
-                }).toString(),
+                }),
             })) {
                 // Each driver is a driver object. You can use the driver object to call other methods.
                 console.log(driver.fullName());
@@ -118,6 +119,73 @@ const App = () => {
                     });
                 });
             }
+        } catch (err) {
+            console.log(err);
+        }
+
+        try {
+            // Search for the vehicle type
+            for await (let vehicleType of motor.listVehicleTypes({
+                brand: new motorJS.Search({
+                    operator: 'ilike',
+                    value: 'toyota',
+                }),
+                model: new motorJS.Search({
+                    operator: 'ilike',
+                    value: 'camry',
+                }),
+                internalFields: true,
+                maxRecords: 1,
+            })) {
+                // Initialise a new vehicle object
+                let vehicle = new motorJS.models.Vehicle({
+                    regPlate: 'ABC123',
+                    vin: '12345678901234567',
+                    vehicle: vehicleType,
+                });
+
+                // To create a new vehicle, you need to pass the vehicle object
+                await motor
+                    .createVehicle({
+                        vehicle: vehicle, // <-- Vehicle object
+                        driverId: env.testing.driverId1,
+                    })
+                    .then(v => {
+                        // New vehicle created
+                        console.log(v.getDisplay());
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            }
+        } catch (err) {
+            console.log(err);
+        }
+
+        // Create vehicle type
+        try {
+            let vehicleType = await motor.createVehicleType({
+                vehicleType: new motorJS.models.VehicleType({
+                    brand: 'Toyota',
+                    model: 'Camry',
+                    yearFloor: 2020,
+                    yearTop: 2022,
+                    fuelType: 'petrol',
+                    transmission: 'auto',
+                    risk: {
+                        ihr: {
+                            value: 1.2,
+                            weighting: 1.0,
+                            premium: {
+                                apply: true,
+                                inheritance: true,
+                            },
+                        },
+                    },
+                }),
+            });
+
+            console.log(vehicleType.getDisplay());
         } catch (err) {
             console.log(err);
         }

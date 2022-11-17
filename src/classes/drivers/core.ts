@@ -72,20 +72,20 @@ export class Drivers {
 	}
 
 	async *listDrivers({
+		isActive,
 		dob,
 		email,
 		firstName,
 		lastName,
 		externalId,
-		isActive,
 		maxRecords,
 	}: {
+		isActive?: boolean;
 		dob?: string | Search;
 		email?: string | Search;
 		firstName?: string | Search;
 		lastName?: string | Search;
 		externalId?: string | Search;
-		isActive?: boolean;
 		maxRecords?: number;
 	}): AsyncGenerator<Driver> {
 		let count = 0;
@@ -113,7 +113,7 @@ export class Drivers {
 		}
 	}
 
-	async createDriver({ driver, password, sendInvite, sendWebhook }: { driver: DriverBase; password?: string; sendInvite?: boolean; sendWebhook?: boolean }) {
+	async createDriver({ driver, password, sendInvite, sendWebhook }: { driver: Driver; password?: string; sendInvite?: boolean; sendWebhook?: boolean }) {
 		if (!password && !sendInvite) {
 			throw new Error("You must provide a password if sendInvite is false");
 		}

@@ -30,6 +30,7 @@ var __asyncGenerator = (this && this.__asyncGenerator) || function (thisArg, _ar
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Vehicles = void 0;
 const rv_1 = require("../../models/vehicles/rv");
+const v_1 = require("../../models/vehicles/v");
 class Vehicles {
     getVehicle({ vehicleId, includeTranslations = true, includeDistance = true, includeDrvCount = true, }) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -49,20 +50,22 @@ class Vehicles {
             return instance;
         });
     }
-    listVehicles({ regPlate, vin, isActive, isApproved, fullResponse, maxRecords, }) {
+    listVehicles({ isActive, isApproved, regPlate, vin, sourceId, externalId, fullResponse, maxRecords, }) {
         return __asyncGenerator(this, arguments, function* listVehicles_1() {
             var e_1, _a;
             let count = 0;
+            let params = {};
+            isActive ? (params = Object.assign(Object.assign({}, params), { isActive: isActive })) : null;
+            isApproved ? (params = Object.assign(Object.assign({}, params), { isApproved: isApproved })) : null;
+            vin ? (params = Object.assign(Object.assign({}, params), { vin: String(vin) })) : null;
+            regPlate ? (params = Object.assign(Object.assign({}, params), { regPlate: String(regPlate) })) : null;
+            sourceId ? (params = Object.assign(Object.assign({}, params), { sourceId: String(sourceId) })) : null;
+            externalId ? (params = Object.assign(Object.assign({}, params), { externalId: String(externalId) })) : null;
+            fullResponse ? (params = Object.assign(Object.assign({}, params), { full: fullResponse ? "true" : "false" })) : null;
             try {
                 for (var _b = __asyncValues(this.api.batchFetch({
                     endpoint: `registered-vehicles`,
-                    params: {
-                        regPlate,
-                        vin,
-                        isActive,
-                        isApproved,
-                        full: fullResponse ? "true" : "false",
-                    },
+                    params: params,
                 })), _c; _c = yield __await(_b.next()), !_c.done;) {
                     let raw = _c.value;
                     if (maxRecords && count >= maxRecords) {
@@ -95,15 +98,92 @@ class Vehicles {
             if (!((_a = vehicle.vehicle) === null || _a === void 0 ? void 0 : _a.id)) {
                 throw new Error("Vehicle Type ID is required");
             }
+            let data = Object.assign(Object.assign({}, vehicle), { vehicleId: vehicle.vehicle.id });
+            delete data.vehicle;
             let raw = yield this.api.request({
                 method: "POST",
                 endpoint: `registered-vehicles`,
-                data: Object.assign(Object.assign({}, vehicle), { vehicleId: vehicle.vehicle.id }),
+                data: data,
                 params: {
                     webhook: sendWebhook ? "true" : "false",
                 },
             });
-            let instance = new rv_1.Vehicle(raw);
+            let rv = new rv_1.Vehicle(raw);
+            rv.api = this.api;
+            try {
+                if (driverId) {
+                    if (!drv) {
+                        yield rv.addDriver({
+                            driverId,
+                            displayName: vehicle.getDisplay(),
+                            isOwner: false,
+                            isPrimaryDriver: true,
+                        });
+                    }
+                    else {
+                        yield rv.addDrv({
+                            driverId,
+                            drv,
+                        });
+                    }
+                }
+            }
+            catch (e) {
+                console.error(e);
+                // await rv.delete();
+                throw e;
+            }
+            return rv;
+        });
+    }
+    listVehicleTypes({ brand, model, vehicleName, year, externalId, sourceId, isActive, internalFields, maxRecords, }) {
+        return __asyncGenerator(this, arguments, function* listVehicleTypes_1() {
+            var e_2, _a;
+            let count = 0;
+            let params = {};
+            brand ? (params = Object.assign(Object.assign({}, params), { brand: String(brand) })) : null;
+            model ? (params = Object.assign(Object.assign({}, params), { model: String(model) })) : null;
+            vehicleName ? (params = Object.assign(Object.assign({}, params), { vehicleName: String(vehicleName) })) : null;
+            year ? (params = Object.assign(Object.assign({}, params), { year: String(year) })) : null;
+            externalId ? (params = Object.assign(Object.assign({}, params), { externalId: String(externalId) })) : null;
+            sourceId ? (params = Object.assign(Object.assign({}, params), { sourceId: String(sourceId) })) : null;
+            isActive ? (params = Object.assign(Object.assign({}, params), { isActive: isActive })) : null;
+            internalFields ? (params = Object.assign(Object.assign({}, params), { internalFields: internalFields })) : null;
+            try {
+                for (var _b = __asyncValues(this.api.batchFetch({
+                    endpoint: `vehicles`,
+                    params: params,
+                })), _c; _c = yield __await(_b.next()), !_c.done;) {
+                    let raw = _c.value;
+                    if (maxRecords && count >= maxRecords) {
+                        break;
+                    }
+                    let instance = new v_1.VehicleType(raw);
+                    instance.api = this.api;
+                    yield yield __await(instance);
+                    count++;
+                }
+            }
+            catch (e_2_1) { e_2 = { error: e_2_1 }; }
+            finally {
+                try {
+                    if (_c && !_c.done && (_a = _b.return)) yield __await(_a.call(_b));
+                }
+                finally { if (e_2) throw e_2.error; }
+            }
+        });
+    }
+    createVehicleType({ vehicleType, sendWebhook }) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let raw = yield this.api.request({
+                method: "POST",
+                endpoint: `vehicles`,
+                data: vehicleType,
+                params: {
+                    webhook: sendWebhook ? "true" : "false",
+                },
+            });
+            let instance = new v_1.VehicleType(raw);
             instance.api = this.api;
             return instance;
         });

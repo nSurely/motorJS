@@ -35,6 +35,27 @@ class DriverVehicle extends custom_1.PrivateApiHandler {
     telematicsId() {
         return this.sourceId;
     }
+    create({ driverId, registeredVehicleId }) {
+        var _a, _b, _c;
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!registeredVehicleId) {
+                if (!((_a = this.registeredVehicle) === null || _a === void 0 ? void 0 : _a.regPlate) || !((_c = (_b = this.registeredVehicle) === null || _b === void 0 ? void 0 : _b.vehicle) === null || _c === void 0 ? void 0 : _c.id)) {
+                    throw new Error("To created a DRV either registeredVehicleId should be provided or driverVehicle.registeredVehicle must have regPlate and registeredVehicle.vehicle (vehicle type) must have an ID");
+                }
+            }
+            let data = Object.assign({}, this);
+            if (registeredVehicleId) {
+                data = Object.assign(Object.assign({}, data), { registeredVehicleId: registeredVehicleId });
+                //remove the registeredVehicle object if it exists
+                delete data.registeredVehicle;
+            }
+            return yield this.api.request({
+                method: "POST",
+                endpoint: `drivers/${driverId}/vehicles`,
+                data: Object.assign(Object.assign({}, this), { registeredVehicleId: registeredVehicleId }),
+            });
+        });
+    }
     refresh() {
         return __awaiter(this, void 0, void 0, function* () {
             this._checkId();

@@ -1,7 +1,6 @@
 import StorageManager from "../../utils/storage";
 import { APIHandlerAuth, APIHandlerNoAuth } from "../../utils/api";
 import { Driver } from "../../models/drivers";
-import { DriverBase } from "../../models/drivers/interface";
 import { Search } from "../../utils/search";
 export declare class Drivers {
     storageManager: StorageManager;
@@ -33,17 +32,17 @@ export declare class Drivers {
         contact?: boolean;
         occupation?: boolean;
     }): Promise<Driver>;
-    listDrivers({ dob, email, firstName, lastName, externalId, isActive, maxRecords, }: {
+    listDrivers({ isActive, dob, email, firstName, lastName, externalId, maxRecords, }: {
+        isActive?: boolean;
         dob?: string | Search;
         email?: string | Search;
         firstName?: string | Search;
         lastName?: string | Search;
         externalId?: string | Search;
-        isActive?: boolean;
         maxRecords?: number;
     }): AsyncGenerator<Driver>;
     createDriver({ driver, password, sendInvite, sendWebhook }: {
-        driver: DriverBase;
+        driver: Driver;
         password?: string;
         sendInvite?: boolean;
         sendWebhook?: boolean;

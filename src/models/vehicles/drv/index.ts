@@ -1,4 +1,4 @@
-import { DriverRegisteredVehicleBase, DriverRegisteredVehicleWithDriverId } from "./interface";
+import { DriverRegisteredVehicleBase } from "./interface";
 import { RiskBase } from "../../risk/interface";
 import { PolicyBase } from "../../policy/interface";
 import { DriverBase } from "../../drivers/interface";
@@ -28,7 +28,7 @@ export class DriverVehicle extends PrivateApiHandler {
 	driver?: DriverBase;
 	registeredVehicle?: Vehicle;
 
-	constructor(vehicle: DriverRegisteredVehicleWithDriverId) {
+	constructor(vehicle: DriverRegisteredVehicleBase) {
 		super();
 		vehicle.registeredVehicle = vehicle.registeredVehicle ? new Vehicle(vehicle.registeredVehicle) : undefined;
 		Object.assign(this, vehicle);
@@ -50,6 +50,35 @@ export class DriverVehicle extends PrivateApiHandler {
 
 	telematicsId() {
 		return this.sourceId;
+	}
+
+	async create({ driverId, registeredVehicleId }: { driverId: string; registeredVehicleId?: string }) {
+		if (!registeredVehicleId) {
+			if (!this.registeredVehicle?.regPlate || !this.registeredVehicle?.vehicle?.id) {
+				throw new Error("To created a DRV either registeredVehicleId should be provided or driverVehicle.registeredVehicle must have regPlate and registeredVehicle.vehicle (vehicle type) must have an ID");
+			}
+		}
+		let data = {
+			...this
+		}
+
+		if (registeredVehicleId) {
+			data = {
+				...data,
+				registeredVehicleId: registeredVehicleId
+			}
+			//remove the registeredVehicle object if it exists
+			delete data.registeredVehicle;
+		}
+
+		return await this.api.request({
+			method: "POST",
+			endpoint: `drivers/${driverId}/vehicles`,
+			data: {
+				...this,
+				registeredVehicleId: registeredVehicleId,
+			},
+		});
 	}
 
 	async refresh() {

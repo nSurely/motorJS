@@ -60,6 +60,13 @@ class APIHandlerNoAuth {
                 this.orgDataRefreshing = true;
                 this.refreshOrgData();
             }
+            if (data) {
+                data = Object.assign({}, data);
+                // check if data has api, remove it
+                if (data.api) {
+                    delete data.api;
+                }
+            }
             let { body, status } = yield (0, request_1.default)({
                 method,
                 url: urlOverride ? urlOverride : `${this.orgUrl}/${endpoint}`,
@@ -202,6 +209,13 @@ class APIHandlerAuth {
                 yield this.refreshOrgData();
             }
             yield this.checkAuth();
+            if (data) {
+                data = Object.assign({}, data);
+                // check if data has api, remove it
+                if (data.api) {
+                    delete data.api;
+                }
+            }
             let response = yield this.makeRequest({
                 method,
                 url: urlOverride ? urlOverride : `${this.orgUrl}/${endpoint}`,

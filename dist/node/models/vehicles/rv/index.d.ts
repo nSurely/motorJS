@@ -5,6 +5,7 @@ import { APIHandlerAuth, APIHandlerNoAuth } from "../../../utils/api";
 import { PrivateApiHandler } from "../../custom";
 import { PolicyBase } from "../../policy/interface";
 import { VehicleType } from "../v";
+import { DriverVehicle } from "../drv";
 export declare class Vehicle extends PrivateApiHandler {
     api: APIHandlerAuth | APIHandlerNoAuth;
     apiPath?: string;
@@ -47,6 +48,16 @@ export declare class Vehicle extends PrivateApiHandler {
     constructor(vehicle: RegisteredVehicleBase);
     private _checkId;
     getDisplay(): string;
+    addDrv({ driverId, drv }: {
+        driverId: string;
+        drv: DriverVehicle;
+    }): Promise<any>;
+    addDriver({ driverId, displayName, isOwner, isPrimaryDriver }: {
+        driverId: string;
+        displayName?: string;
+        isOwner?: boolean;
+        isPrimaryDriver?: boolean;
+    }): Promise<any>;
     refresh(): Promise<void>;
     delete(): Promise<void>;
     save(fields?: Object): Promise<void>;

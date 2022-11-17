@@ -104,6 +104,15 @@ declare let motorJS: {
     Motor: typeof Motor;
     Auth: typeof Auth;
     Search: typeof Search;
+    models: {
+        Driver: typeof import("./models/drivers").Driver;
+        BillingAccount: typeof import("./models/billing/accounts").BillingAccount;
+        BillingEvent: typeof import("./models/billing/events").BillingEvent;
+        Policy: typeof import("./models/policy").Policy;
+        DriverVehicle: typeof import("./models/vehicles/drv").DriverVehicle;
+        Vehicle: typeof import("./models/vehicles/rv").Vehicle;
+        VehicleType: typeof import("./models/vehicles/v").VehicleType;
+    };
 };
 export default motorJS;
 //# sourceMappingURL=index.d.ts.map

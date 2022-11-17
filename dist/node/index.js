@@ -21,6 +21,7 @@ const drivers_1 = __importDefault(require("./classes/drivers"));
 const vehicles_1 = __importDefault(require("./classes/vehicles"));
 const fleets_1 = __importDefault(require("./classes/fleets"));
 const search_1 = require("./utils/search");
+const models_1 = __importDefault(require("./models"));
 /**
  * Entry point for the SDK to interact with the Inaza API.
  * @break
@@ -127,7 +128,7 @@ class Motor {
                 method,
                 endpoint: path,
                 params,
-                data
+                data,
             });
         });
     }
@@ -136,7 +137,8 @@ class Motor {
 let motorJS = {
     Motor,
     Auth: auth_1.default,
-    Search: search_1.Search
+    Search: search_1.Search,
+    models: models_1.default,
 };
 // For webpack
 Function("r", "motorJS = r")(motorJS);

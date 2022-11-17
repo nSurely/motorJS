@@ -6,6 +6,7 @@ import { PrivateApiHandler } from "../../custom";
 import { VehicleTypeBase } from "../v/interface";
 import { PolicyBase } from "../../policy/interface";
 import { VehicleType } from "../v";
+import { DriverVehicle } from "../drv";
 
 export class Vehicle extends PrivateApiHandler {
 	api!: APIHandlerAuth | APIHandlerNoAuth;
@@ -66,6 +67,28 @@ export class Vehicle extends PrivateApiHandler {
 		} else {
 			return this.regPlate || "Unknown";
 		}
+	}
+
+	async addDrv({ driverId, drv }: { driverId: string; drv: DriverVehicle }) {
+		this._checkId();
+
+		if (!drv?.api) {
+			drv.api = this.api;
+		}
+		
+		return await drv.create({ driverId: driverId, registeredVehicleId: this.id });
+	}
+
+	async addDriver({ driverId, displayName, isOwner, isPrimaryDriver }: { driverId: string; displayName?: string; isOwner?: boolean; isPrimaryDriver?: boolean }) {
+		let drv = new DriverVehicle({
+			displayName: displayName,
+			isOwner: isOwner,
+			isPrimaryDriver: isPrimaryDriver,
+		});
+
+		drv.api = this.api;
+
+		return await this.addDrv({ driverId: driverId, drv: drv });
 	}
 
 	async refresh() {
