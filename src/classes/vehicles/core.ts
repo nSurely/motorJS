@@ -5,6 +5,8 @@ import { Vehicle } from "../../models/vehicles/rv";
 import { Driver } from "../../models/drivers";
 import { DriverBase } from "../../models/drivers/interface";
 import { DriverRegisteredVehicleBase } from "../../models/vehicles/drv/interface";
+import { Search } from "../../utils/search";
+import { VehicleType } from "../../models/vehicles/v";
 
 export class Vehicles {
 	storageManager!: StorageManager;
@@ -41,31 +43,39 @@ export class Vehicles {
 	}
 
 	async *listVehicles({
-		regPlate,
-		vin,
 		isActive,
 		isApproved,
+		regPlate,
+		vin,
+		sourceId,
+		externalId,
 		fullResponse,
 		maxRecords,
 	}: {
-		regPlate?: string;
-		vin?: string;
-		isActive?: string;
-		isApproved?: string;
+		isActive?: boolean;
+		isApproved?: boolean;
+		regPlate?: string | Search;
+		vin?: string | Search;
+		sourceId?: string | Search;
+		externalId?: string | Search;
 		fullResponse?: string;
 		maxRecords?: number;
 	}): AsyncGenerator<Vehicle, void, unknown> {
 		let count = 0;
 
+		let params = {};
+
+		isActive ? (params = { ...params, isActive: isActive }) : null;
+		isApproved ? (params = { ...params, isApproved: isApproved }) : null;
+		vin ? (params = { ...params, vin: String(vin) }) : null;
+		regPlate ? (params = { ...params, regPlate: String(regPlate) }) : null;
+		sourceId ? (params = { ...params, sourceId: String(sourceId) }) : null;
+		externalId ? (params = { ...params, externalId: String(externalId) }) : null;
+		fullResponse ? (params = { ...params, full: fullResponse ? "true" : "false" }) : null;
+
 		for await (let raw of this.api.batchFetch({
 			endpoint: `registered-vehicles`,
-			params: {
-				regPlate,
-				vin,
-				isActive,
-				isApproved,
-				full: fullResponse ? "true" : "false",
-			},
+			params: params,
 		})) {
 			if (maxRecords && count >= maxRecords) {
 				break;
@@ -77,12 +87,12 @@ export class Vehicles {
 		}
 	}
 
-	async createVehicle({ vehicle, driverId, drv, sendWebhook = true }: { vehicle: Vehicle; driverId?: string; drv?: DriverRegisteredVehicleBase; sendWebhook?: boolean }) {
+	async createVehicle({ vehicle, driverId, drv, sendWebhook = true }: { vehicle: Vehicle; driverId?: string; drv?: DriverVehicle; sendWebhook?: boolean }) {
 		if (!driverId && drv) {
 			throw new Error("You must provide a driverId if drv is provided");
 		}
 
-		if(!vehicle.vehicle) {
+		if (!vehicle.vehicle) {
 			throw new Error("You must provide a vehicleType");
 		}
 
@@ -90,19 +100,109 @@ export class Vehicles {
 			throw new Error("Vehicle Type ID is required");
 		}
 
+		let data = {
+			...vehicle,
+			vehicleId: vehicle.vehicle.id,
+		};
+
+		delete data.vehicle;
+
 		let raw = await this.api.request({
 			method: "POST",
 			endpoint: `registered-vehicles`,
-			data: {
-				...vehicle,
-				vehicleId: vehicle.vehicle.id,
-			},
+			data: data,
 			params: {
 				webhook: sendWebhook ? "true" : "false",
 			},
 		});
 
-		let instance = new Vehicle(raw);
+		let rv = new Vehicle(raw);
+		rv.api = this.api;
+
+		try {
+			if (driverId) {
+				if (!drv) {
+					await rv.addDriver({
+						driverId,
+						displayName: vehicle.getDisplay(),
+						isOwner: false,
+						isPrimaryDriver: true,
+					});
+				} else {
+					await rv.addDrv({
+						driverId,
+						drv,
+					});
+				}
+			}
+		} catch (e) {
+			console.error(e);
+			// await rv.delete();
+			throw e;
+		}
+
+		return rv;
+	}
+
+	async *listVehicleTypes({
+		brand,
+		model,
+		vehicleName,
+		year,
+		externalId,
+		sourceId,
+		isActive,
+		internalFields,
+		maxRecords,
+	}: {
+		brand?: string | Search;
+		model?: string | Search;
+		vehicleName?: string | Search;
+		year?: string | number | Search;
+		externalId?: string | Search;
+		sourceId?: string | Search;
+		isActive?: boolean;
+		internalFields?: boolean;
+		maxRecords?: number;
+	}) {
+		let count = 0;
+
+		let params = {};
+
+		brand ? (params = { ...params, brand: String(brand) }) : null;
+		model ? (params = { ...params, model: String(model) }) : null;
+		vehicleName ? (params = { ...params, vehicleName: String(vehicleName) }) : null;
+		year ? (params = { ...params, year: String(year) }) : null;
+		externalId ? (params = { ...params, externalId: String(externalId) }) : null;
+		sourceId ? (params = { ...params, sourceId: String(sourceId) }) : null;
+		isActive ? (params = { ...params, isActive: isActive }) : null;
+		internalFields ? (params = { ...params, internalFields: internalFields }) : null;
+
+		for await (let raw of this.api.batchFetch({
+			endpoint: `vehicles`,
+			params: params,
+		})) {
+			if (maxRecords && count >= maxRecords) {
+				break;
+			}
+			let instance = new VehicleType(raw);
+			instance.api = this.api;
+			yield instance;
+			count++;
+		}
+	}
+
+	async createVehicleType({ vehicleType, sendWebhook }: { vehicleType: VehicleType; sendWebhook?: boolean }) {
+		let raw = await this.api.request({
+			method: "POST",
+			endpoint: `vehicles`,
+			data: vehicleType,
+			params: {
+				webhook: sendWebhook ? "true" : "false",
+			},
+		});
+
+		let instance = new VehicleType(raw);
 		instance.api = this.api;
 
 		return instance;

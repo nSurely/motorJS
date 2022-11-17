@@ -1,4 +1,4 @@
-import { DriverRegisteredVehicleWithDriverId } from "./interface";
+import { DriverRegisteredVehicleBase } from "./interface";
 import { RiskBase } from "../../risk/interface";
 import { PolicyBase } from "../../policy/interface";
 import { DriverBase } from "../../drivers/interface";
@@ -25,10 +25,14 @@ export declare class DriverVehicle extends PrivateApiHandler {
     policies?: PolicyBase[];
     driver?: DriverBase;
     registeredVehicle?: Vehicle;
-    constructor(vehicle: DriverRegisteredVehicleWithDriverId);
+    constructor(vehicle: DriverRegisteredVehicleBase);
     private _checkId;
     getDisplay(): string;
     telematicsId(): string | undefined;
+    create({ driverId, registeredVehicleId }: {
+        driverId: string;
+        registeredVehicleId?: string;
+    }): Promise<any>;
     refresh(): Promise<void>;
     delete(): Promise<void>;
     save(fields?: Object): Promise<void>;

@@ -64,6 +64,16 @@ export class APIHandlerNoAuth {
 			this.refreshOrgData();
 		}
 
+		if (data) {
+			data = {
+				...data,
+			};
+			// check if data has api, remove it
+			if (data.api) {
+				delete data.api;
+			}
+		}
+
 		let { body, status } = await request({
 			method,
 			url: urlOverride ? urlOverride : `${this.orgUrl}/${endpoint}`,
@@ -259,6 +269,16 @@ export class APIHandlerAuth {
 		}
 
 		await this.checkAuth();
+
+		if (data) {
+			data = {
+				...data,
+			};
+			// check if data has api, remove it
+			if (data.api) {
+				delete data.api;
+			}
+		}
 
 		let response = await this.makeRequest({
 			method,
