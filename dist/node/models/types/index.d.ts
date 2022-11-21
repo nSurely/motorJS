@@ -4,4 +4,5 @@ export declare enum regions {
     me1 = "me-1",
     us1 = "us-1"
 }
+export declare let LANG: string[];
 //# sourceMappingURL=index.d.ts.map

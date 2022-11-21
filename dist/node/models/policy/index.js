@@ -51,6 +51,13 @@ class Policy extends custom_1.PrivateApiHandler {
         }
         return (_c = (_b = this.final) === null || _b === void 0 ? void 0 : _b.rates) === null || _c === void 0 ? void 0 : _c.value;
     }
+    ratePerMile() {
+        var _a, _b, _c, _d, _e;
+        if (!((_a = this.rates) === null || _a === void 0 ? void 0 : _a.enabled)) {
+            return undefined;
+        }
+        return ((_c = (_b = this.final) === null || _b === void 0 ? void 0 : _b.rates) === null || _c === void 0 ? void 0 : _c.value) ? ((_e = (_d = this.final) === null || _d === void 0 ? void 0 : _d.rates) === null || _e === void 0 ? void 0 : _e.value) * 1.60934 : undefined;
+    }
     premiumAmount() {
         var _a, _b;
         return (_b = (_a = this.final) === null || _a === void 0 ? void 0 : _a.premium) === null || _b === void 0 ? void 0 : _b.value;
@@ -165,6 +172,66 @@ class Policy extends custom_1.PrivateApiHandler {
             raw.api = api;
             Object.assign(this, raw);
             return this;
+        });
+    }
+    driverApprove({ refresh = true }) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this._checkId();
+            let body = {
+                driver: {
+                    agreedAt: new Date().toISOString(),
+                },
+            };
+            yield this.api.request({
+                method: "PATCH",
+                endpoint: `policies/${this.id}`,
+                data: body,
+            });
+            if (refresh) {
+                yield this.refesh();
+            }
+        });
+    }
+    internalApprove({ refresh = true, approvedById }) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this._checkId();
+            let body = {
+                approval: {
+                    approvedAt: new Date().toISOString(),
+                },
+            };
+            if (approvedById) {
+                body.approval.approvedBy = approvedById;
+            }
+            yield this.api.request({
+                method: "PATCH",
+                endpoint: `policies/${this.id}`,
+                data: body,
+            });
+            if (refresh) {
+                yield this.refesh();
+            }
+        });
+    }
+    cancel({ refresh = true, message }) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this._checkId();
+            let body = {
+                cancellation: {
+                    cancelledAt: new Date().toISOString(),
+                },
+            };
+            if (message) {
+                body.cancellation.message = message;
+            }
+            yield this.api.request({
+                method: "PATCH",
+                endpoint: `policies/${this.id}`,
+                data: body,
+            });
+            if (refresh) {
+                yield this.refesh();
+            }
         });
     }
 }

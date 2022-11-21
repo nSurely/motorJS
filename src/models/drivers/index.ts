@@ -7,6 +7,8 @@ import { PrivateApiHandler } from "../custom";
 import { Vehicle } from "../vehicles/rv";
 import { BillingAccount } from "../billing/accounts";
 import { DriverVehicle } from "../vehicles/drv";
+import { Policy } from "../policy";
+import { BillingEvent } from "../billing/events";
 
 export class Driver extends PrivateApiHandler {
 	api!: APIHandlerAuth | APIHandlerNoAuth;
@@ -115,11 +117,11 @@ export class Driver extends PrivateApiHandler {
 	}
 
 	async listVehicles(): Promise<Vehicle[]> {
-		let vehiclesRaw = await this.api.request({
+		let raw = await this.api.request({
 			method: "GET",
 			endpoint: `drivers/${this.id}/vehicles`,
 		});
-		return vehiclesRaw.map((vehicle: any) => {
+		return raw.map((vehicle: any) => {
 			let instance = new DriverVehicle(vehicle);
 			instance.api = this.api;
 			return instance;
@@ -137,15 +139,153 @@ export class Driver extends PrivateApiHandler {
 	async listBillingAccounts(primaryOnly: boolean = false): Promise<BillingAccount[]> {
 		this._checkId();
 
-		let billingAccountsRaw = await this.api.request({
+		let raw = await this.api.request({
 			method: "GET",
 			endpoint: `drivers/${this.id}/billing-accounts`,
 		});
 
-		return billingAccountsRaw.map((billingAccount: any) => {
+		return raw.map((billingAccount: any) => {
 			let instance = new BillingAccount(billingAccount);
 			instance.api = this.api;
 			return instance;
+		});
+	}
+
+	async getBillingAccount({ id }: { id: string }) {
+		this._checkId();
+
+		if (!id) {
+			throw new Error("Billing account id is required");
+		}
+
+		let raw = await this.api.request({
+			method: "GET",
+			endpoint: `drivers/${this.id}/billing-accounts/${id}`,
+		});
+
+		let instance = new BillingAccount(raw);
+		instance.api = this.api;
+		return instance;
+	}
+
+	async listVehiclePolicies({ vehicleId }: { vehicleId?: string }): Promise<Policy[]> {
+		let raw = await this.api.request({
+			method: "GET",
+			endpoint: `policy`,
+			params: {
+				drvIds: vehicleId,
+			},
+		});
+
+		return raw.map((policy: any) => {
+			let instance = new Policy(policy);
+			instance.api = this.api;
+			return instance;
+		});
+	}
+
+	async getPrimaryBillingAccount() {
+		let res = await this.listBillingAccounts(true);
+
+		if (res.length > 0 && res[0].id) {
+			return await this.getBillingAccount({ id: res[0].id });
+		}
+	}
+
+	async createBillingAccount({ account }: { account: BillingAccount }) {
+		this._checkId();
+		let raw = await this.api.request({
+			method: "POST",
+			endpoint: `drivers/${this.id}/billing-accounts`,
+			params: account,
+		});
+
+		let instance = new BillingAccount(raw);
+		instance.api = this.api;
+		return instance;
+	}
+
+	async charge({ amount, event }: { amount?: number; event?: BillingEvent }) {
+		if (!amount && !event) {
+			throw new Error("Either amount or event is required");
+		}
+
+		if (!event) {
+			event = new BillingEvent({
+				amount: amount,
+				message: "Charge",
+				type: "other",
+			});
+		}
+
+		this._checkId();
+
+		let raw = await this.api.request({
+			method: "POST",
+			endpoint: `drivers/${this.id}/billing-events`,
+			params: event,
+		});
+
+		let instance = new BillingEvent(raw);
+		instance.api = this.api;
+		return instance;
+	}
+
+	async *listCharges({ eventType, eventStatus, maxRecords }: { eventType?: string; eventStatus?: string; maxRecords?: number }) {
+		this._checkId();
+		let params: any = {};
+		if (eventType) {
+			params.type = eventType;
+		}
+		if (eventStatus) {
+			params.status = eventStatus;
+		}
+
+		let count = 0;
+		for await (let raw of this.api.batchFetch({
+			endpoint: `drivers/${this.id}/billing-events`,
+			params: params,
+		})) {
+			if (maxRecords && count >= maxRecords) {
+				break;
+			}
+			let instance = new BillingEvent(raw);
+			instance.api = this.api;
+			yield instance;
+			count += 1;
+		}
+	}
+
+	async *listPolicies({ looseMatch = true, isActivePolicy }: { looseMatch?: boolean; isActivePolicy?: boolean }): AsyncGenerator<Policy> {
+		let params: any = {};
+
+		params.driverIds = this.id;
+		params.driverLooseMatch = looseMatch;
+
+		if (isActivePolicy) {
+			params.isActivePolicy = isActivePolicy;
+		}
+
+		for await (let raw of this.api.batchFetch({
+			endpoint: `policy`,
+			params: params,
+		})) {
+			let instance = new Policy(raw);
+			instance.api = this.api;
+			yield instance;
+		}
+	}
+
+	async createPolicy({ policy }: { policy?: Policy }) {
+		if (!policy) {
+			policy = new Policy({
+				policyGroup: "d",
+			});
+		}
+		policy.api = this.api;
+		return await policy.create({
+			api: this.api as APIHandlerAuth,
+			recordId: this.id!,
 		});
 	}
 }

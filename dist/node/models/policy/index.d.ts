@@ -52,6 +52,7 @@ export declare class Policy extends PrivateApiHandler {
     isDriverAgreed(): boolean | undefined;
     isLive(): boolean | undefined;
     ratePerKm(): number | undefined;
+    ratePerMile(): number | undefined;
     premiumAmount(): number | undefined;
     private _checkId;
     refesh(): Promise<void>;
@@ -64,5 +65,16 @@ export declare class Policy extends PrivateApiHandler {
         driverId?: string;
         vehicleId?: string;
     }): Promise<Policy>;
+    driverApprove({ refresh }: {
+        refresh?: boolean;
+    }): Promise<void>;
+    internalApprove({ refresh, approvedById }: {
+        refresh?: boolean;
+        approvedById?: string;
+    }): Promise<void>;
+    cancel({ refresh, message }: {
+        refresh?: boolean;
+        message?: string;
+    }): Promise<void>;
 }
 //# sourceMappingURL=index.d.ts.map

@@ -7,6 +7,7 @@ import { VehicleTypeBase } from "../v/interface";
 import { PolicyBase } from "../../policy/interface";
 import { VehicleType } from "../v";
 import { DriverVehicle } from "../drv";
+import { Policy } from "../../policy";
 
 export class Vehicle extends PrivateApiHandler {
 	api!: APIHandlerAuth | APIHandlerNoAuth;
@@ -75,7 +76,7 @@ export class Vehicle extends PrivateApiHandler {
 		if (!drv?.api) {
 			drv.api = this.api;
 		}
-		
+
 		return await drv.create({ driverId: driverId, registeredVehicleId: this.id });
 	}
 
@@ -89,6 +90,19 @@ export class Vehicle extends PrivateApiHandler {
 		drv.api = this.api;
 
 		return await this.addDrv({ driverId: driverId, drv: drv });
+	}
+
+	async createPolicy({ policy }: { policy: Policy }) {
+		if (!policy) {
+			policy = new Policy({
+				policyGroup: "rv",
+			});
+		}
+		policy.api = this.api;
+		return await policy.create({
+			api: this.api as APIHandlerAuth,
+			recordId: this.id!,
+		});
 	}
 
 	async refresh() {
