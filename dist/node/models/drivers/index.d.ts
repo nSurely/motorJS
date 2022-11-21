@@ -6,6 +6,8 @@ import { APIHandlerAuth, APIHandlerNoAuth } from "../../utils/api";
 import { PrivateApiHandler } from "../custom";
 import { Vehicle } from "../vehicles/rv";
 import { BillingAccount } from "../billing/accounts";
+import { Policy } from "../policy";
+import { BillingEvent } from "../billing/events";
 export declare class Driver extends PrivateApiHandler {
     api: APIHandlerAuth | APIHandlerNoAuth;
     adrLine1?: string;
@@ -59,5 +61,31 @@ export declare class Driver extends PrivateApiHandler {
     getDisplay(): string;
     telematicsId(): string | undefined;
     listBillingAccounts(primaryOnly?: boolean): Promise<BillingAccount[]>;
+    getBillingAccount({ id }: {
+        id: string;
+    }): Promise<BillingAccount>;
+    listVehiclePolicies({ vehicleId }: {
+        vehicleId?: string;
+    }): Promise<Policy[]>;
+    getPrimaryBillingAccount(): Promise<BillingAccount | undefined>;
+    createBillingAccount({ account }: {
+        account: BillingAccount;
+    }): Promise<BillingAccount>;
+    charge({ amount, event }: {
+        amount?: number;
+        event?: BillingEvent;
+    }): Promise<BillingEvent>;
+    listCharges({ eventType, eventStatus, maxRecords }: {
+        eventType?: string;
+        eventStatus?: string;
+        maxRecords?: number;
+    }): AsyncGenerator<BillingEvent, void, unknown>;
+    listPolicies({ looseMatch, isActivePolicy }: {
+        looseMatch?: boolean;
+        isActivePolicy?: boolean;
+    }): AsyncGenerator<Policy>;
+    createPolicy({ policy }: {
+        policy?: Policy;
+    }): Promise<Policy>;
 }
 //# sourceMappingURL=index.d.ts.map

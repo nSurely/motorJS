@@ -1,4 +1,6 @@
+import { Driver } from "../../drivers";
 import { DriverBase } from "../../drivers/interface";
+import { Vehicle } from "../../vehicles/rv";
 import { RegisteredVehicleBase } from "../../vehicles/rv/interface";
 
 export interface FleetDriverVehicleAssignementBase {
@@ -7,6 +9,6 @@ export interface FleetDriverVehicleAssignementBase {
 	createdAt?: Date;
 	sourceId?: string;
 	assigned?: boolean;
-	driver?: DriverBase;
-	registeredVehicle?: RegisteredVehicleBase;
+	driver?: Driver;
+	registeredVehicle?: Vehicle;
 }

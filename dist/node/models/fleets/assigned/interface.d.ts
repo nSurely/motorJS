@@ -1,12 +1,12 @@
-import { DriverBase } from "../../drivers/interface";
-import { RegisteredVehicleBase } from "../../vehicles/rv/interface";
+import { Driver } from "../../drivers";
+import { Vehicle } from "../../vehicles/rv";
 export interface FleetDriverVehicleAssignementBase {
     isActive?: boolean;
     expiresAt?: Date;
     createdAt?: Date;
     sourceId?: string;
     assigned?: boolean;
-    driver?: DriverBase;
-    registeredVehicle?: RegisteredVehicleBase;
+    driver?: Driver;
+    registeredVehicle?: Vehicle;
 }
 //# sourceMappingURL=interface.d.ts.map

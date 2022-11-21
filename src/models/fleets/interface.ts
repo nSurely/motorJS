@@ -13,13 +13,9 @@ export interface FleetsBase {
 	parentId?: string;
 	id?: string;
 	createdAt?: Date;
-	translations?: Translations;
+	translations?: Object;
 	risk?: RiskBase;
 	vehicleCount?: number;
 	driverCount?: number;
 }
 
-export interface Translations {
-	display?: Object;
-	description?: Object;
-}

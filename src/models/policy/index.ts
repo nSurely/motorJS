@@ -89,6 +89,13 @@ export class Policy extends PrivateApiHandler {
 		return this.final?.rates?.value;
 	}
 
+	ratePerMile(): number | undefined {
+		if (!this.rates?.enabled) {
+			return undefined;
+		}
+		return this.final?.rates?.value ? this.final?.rates?.value * 1.60934 : undefined;
+	}
+
 	premiumAmount(): number | undefined {
 		return this.final?.premium?.value;
 	}
@@ -203,5 +210,70 @@ export class Policy extends PrivateApiHandler {
 
 		Object.assign(this, raw);
 		return this;
+	}
+
+	async driverApprove({ refresh = true }: { refresh?: boolean }) {
+		this._checkId();
+
+		let body: any = {
+			driver: {
+				agreedAt: new Date().toISOString(),
+			},
+		};
+
+		await this.api.request({
+			method: "PATCH",
+			endpoint: `policies/${this.id}`,
+			data: body,
+		});
+		if (refresh) {
+			await this.refesh();
+		}
+	}
+
+	async internalApprove({ refresh = true, approvedById }: { refresh?: boolean; approvedById?: string }) {
+		this._checkId();
+
+		let body: any = {
+			approval: {
+				approvedAt: new Date().toISOString(),
+			},
+		};
+
+		if (approvedById) {
+			body.approval.approvedBy = approvedById;
+		}
+
+		await this.api.request({
+			method: "PATCH",
+			endpoint: `policies/${this.id}`,
+			data: body,
+		});
+		if (refresh) {
+			await this.refesh();
+		}
+	}
+
+	async cancel({ refresh = true, message }: { refresh?: boolean; message?: string }) {
+		this._checkId();
+
+		let body: any = {
+			cancellation: {
+				cancelledAt: new Date().toISOString(),
+			},
+		};
+
+		if (message) {
+			body.cancellation.message = message;
+		}
+
+		await this.api.request({
+			method: "PATCH",
+			endpoint: `policies/${this.id}`,
+			data: body,
+		});
+		if (refresh) {
+			await this.refesh();
+		}
 	}
 }

@@ -5,6 +5,7 @@ import { Policy } from "./policy";
 import { DriverVehicle } from "./vehicles/drv";
 import { Vehicle } from "./vehicles/rv";
 import { VehicleType } from "./vehicles/v";
+import { Fleet } from "./fleets";
 
 let models = {
 	Driver,
@@ -14,6 +15,7 @@ let models = {
 	DriverVehicle,
 	Vehicle,
 	VehicleType,
+	Fleet,
 };
 
 export default models;

@@ -7,6 +7,7 @@ const policy_1 = require("./policy");
 const drv_1 = require("./vehicles/drv");
 const rv_1 = require("./vehicles/rv");
 const v_1 = require("./vehicles/v");
+const fleets_1 = require("./fleets");
 let models = {
     Driver: drivers_1.Driver,
     BillingAccount: accounts_1.BillingAccount,
@@ -15,6 +16,7 @@ let models = {
     DriverVehicle: drv_1.DriverVehicle,
     Vehicle: rv_1.Vehicle,
     VehicleType: v_1.VehicleType,
+    Fleet: fleets_1.Fleet,
 };
 exports.default = models;
 //# sourceMappingURL=index.js.map

@@ -6,6 +6,7 @@ import { PrivateApiHandler } from "../../custom";
 import { PolicyBase } from "../../policy/interface";
 import { VehicleType } from "../v";
 import { DriverVehicle } from "../drv";
+import { Policy } from "../../policy";
 export declare class Vehicle extends PrivateApiHandler {
     api: APIHandlerAuth | APIHandlerNoAuth;
     apiPath?: string;
@@ -58,6 +59,9 @@ export declare class Vehicle extends PrivateApiHandler {
         isOwner?: boolean;
         isPrimaryDriver?: boolean;
     }): Promise<any>;
+    createPolicy({ policy }: {
+        policy: Policy;
+    }): Promise<Policy>;
     refresh(): Promise<void>;
     delete(): Promise<void>;
     save(fields?: Object): Promise<void>;

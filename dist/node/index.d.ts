@@ -112,6 +112,7 @@ declare let motorJS: {
         DriverVehicle: typeof import("./models/vehicles/drv").DriverVehicle;
         Vehicle: typeof import("./models/vehicles/rv").Vehicle;
         VehicleType: typeof import("./models/vehicles/v").VehicleType;
+        Fleet: typeof import("./models/fleets").Fleet;
     };
 };
 export default motorJS;

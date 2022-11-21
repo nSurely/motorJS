@@ -116,7 +116,7 @@ class Vehicles {
                         yield rv.addDriver({
                             driverId,
                             displayName: vehicle.getDisplay(),
-                            isOwner: false,
+                            isOwner: true,
                             isPrimaryDriver: true,
                         });
                     }
