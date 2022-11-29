@@ -126,12 +126,18 @@ function request({ method, url, data = null, headers, params }) {
             });
         })
             .then((response) => {
-            resolve(parseJSON({
+            parseJSON({
                 response: response,
                 method: method,
                 url: url,
                 params: params,
-            }));
+            })
+                .then((response) => {
+                resolve(response);
+            })
+                .catch((error) => {
+                reject(error);
+            });
         })
             .catch((error) => {
             reject(error);

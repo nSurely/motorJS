@@ -113,14 +113,18 @@ export default function request({ method, url, data = null, headers, params }: {
 				});
 			})
 			.then((response: Response) => {
-				resolve(
-					parseJSON({
-						response: response,
-						method: method,
-						url: url,
-						params: params,
+				parseJSON({
+					response: response,
+					method: method,
+					url: url,
+					params: params,
+				})
+					.then((response: any) => {
+						resolve(response);
 					})
-				);
+					.catch((error: any) => {
+						reject(error);
+					});
 			})
 			.catch((error: Error) => {
 				reject(error);
