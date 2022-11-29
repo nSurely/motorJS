@@ -13,7 +13,7 @@ describe("Auth", () => {
 			orgId: process.env.ORG_ID, // <-- Replace with your organisation ID
 			region: process.env.REGION, // <-- Replace with your region
 			email: process.env.USER_EMAIL, // <-- Replace with users/drivers email
-			password: process.env.USER_EMAIL, // <-- Replace with users/drivers password
+			password: process.env.USER_PASSWORD, // <-- Replace with users/drivers password
 			accountType: 'user', // <-- Can be either "user" or "driver"
 		});
 		auth.login()

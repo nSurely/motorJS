@@ -32,7 +32,8 @@ jobs:
             - name: Run tests
               run: npm run test
               env:
-                CI: true
+                ORG_ID: ${{ secrets.ORG_ID }}
+                REGION: ${{ secrets.REGION }}
                 API_KEY: ${{ secrets.API_KEY }}
                 USER_EMAIL: ${{ secrets.USER_EMAIL }}
                 USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
