@@ -1,3 +1,5 @@
+import fetch, { Headers, Request, Response, RequestInit } from "node-fetch";
+
 function isJsonString(str = "") {
 	try {
 		JSON.parse(str);
@@ -40,7 +42,7 @@ async function parseJSON({ response, method, url, params }: { response: Response
 				method: method,
 				status: response.status,
 				response: responseBody,
-				params: params,
+				params: params || {},
 			});
 			break;
 
@@ -50,7 +52,7 @@ async function parseJSON({ response, method, url, params }: { response: Response
 				method: method,
 				status: response.status,
 				response: responseBody,
-				params: params,
+				params: params || {},
 			});
 			break;
 	}
@@ -85,9 +87,7 @@ export default function request({ method, url, data = null, headers, params }: {
 
 		let requestHeaders = new Headers();
 
-		if (data && data instanceof FormData) {
-			requestOptions.body = data;
-		} else if (data) {
+		if (data) {
 			requestHeaders.append("Content-Type", "application/json");
 			requestOptions.body = JSON.stringify(data);
 		}
@@ -106,13 +106,13 @@ export default function request({ method, url, data = null, headers, params }: {
 			})}`,
 			requestOptions
 		)
-			.then((response) => {
+			.then((response: Response) => {
 				return checkStatus({
 					response: response,
 					method: method,
 				});
 			})
-			.then((response) => {
+			.then((response: Response) => {
 				resolve(
 					parseJSON({
 						response: response,
@@ -122,7 +122,7 @@ export default function request({ method, url, data = null, headers, params }: {
 					})
 				);
 			})
-			.catch((error) => {
+			.catch((error: Error) => {
 				reject(error);
 			});
 	});
