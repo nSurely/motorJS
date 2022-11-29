@@ -81,6 +81,13 @@ declare class Motor {
     api: APIHandlerNoAuth | APIHandlerAuth;
     /**
      * Initialise Motor and return an instance of the Motor class.
+     *
+     * @param {Object} obj - An object.
+     * @param {string} obj.orgId - Your organisation ID.
+     * @param {string} obj.region - Your region. eg. us, eu, au.
+     * @param {string} obj.url - Optional. The base url of the API.
+     * @param {string} obj.auth - Optional. An instance of the Auth class.
+     * @param {string} obj.storage - Optional. Your storage. eg. window.localStorage, AsyncStorage.
      * @returns {Motor}
      */
     constructor({ orgId, region, url, auth, storage }: {

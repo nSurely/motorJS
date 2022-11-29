@@ -23,7 +23,6 @@ export class Drivers {
 	 * @param {boolean} contact - Whether to include the driver's contact data. Defaults to true
 	 * @param {boolean} occupation - Whether to include the driver's occupation data. Defaults to true
 	 */
-
 	async getDriver({
 		driverId,
 		risk = true,
