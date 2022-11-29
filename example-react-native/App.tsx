@@ -54,11 +54,11 @@ const App = () => {
 
     motor
         .createDriver({
-            driver: {
+            driver: new motorJS.models.Driver({
                 firstName: 'FirstName',
                 lastName: 'LastName',
                 email: 'someEmail@org.com',
-            },
+            }),
             password: '$tr0ngP@ssw0rd',
         })
         .then(res => {
