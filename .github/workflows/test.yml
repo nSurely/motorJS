@@ -30,6 +30,6 @@ jobs:
               run: npm run build
 
             - name: Run tests
-              uses: npm run test
+              run: npm run test
               with:
                   API_KEY: ${{ secrets.API_KEY }}
