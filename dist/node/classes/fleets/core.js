@@ -45,33 +45,26 @@ class Fleets {
     }
     listFleets({ maxRecords }) {
         return __asyncGenerator(this, arguments, function* listFleets_1() {
-            var _a, e_1, _b, _c;
+            var e_1, _a;
             let count = 0;
             try {
-                for (var _d = true, _e = __asyncValues(this.api.batchFetch({
+                for (var _b = __asyncValues(this.api.batchFetch({
                     endpoint: `fleets`,
-                })), _f; _f = yield __await(_e.next()), _a = _f.done, !_a;) {
-                    _c = _f.value;
-                    _d = false;
-                    try {
-                        let raw = _c;
-                        if (maxRecords && count >= maxRecords) {
-                            break;
-                        }
-                        let instance = new fleets_1.Fleet(raw);
-                        instance.api = this.api;
-                        yield yield __await(instance);
-                        count++;
+                })), _c; _c = yield __await(_b.next()), !_c.done;) {
+                    let raw = _c.value;
+                    if (maxRecords && count >= maxRecords) {
+                        break;
                     }
-                    finally {
-                        _d = true;
-                    }
+                    let instance = new fleets_1.Fleet(raw);
+                    instance.api = this.api;
+                    yield yield __await(instance);
+                    count++;
                 }
             }
             catch (e_1_1) { e_1 = { error: e_1_1 }; }
             finally {
                 try {
-                    if (!_d && !_a && (_b = _e.return)) yield __await(_b.call(_e));
+                    if (_c && !_c.done && (_a = _b.return)) yield __await(_a.call(_b));
                 }
                 finally { if (e_1) throw e_1.error; }
             }
