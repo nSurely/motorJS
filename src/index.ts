@@ -95,7 +95,7 @@ class Motor {
 	 * @param {string} obj.storage - Optional. Your storage. eg. window.localStorage, AsyncStorage.
 	 * @returns {Motor}
 	 */
-	constructor({ orgId, region, url, auth, storage = null }: { orgId: string; region: string; url?: string; auth?: Auth; storage: any }) {
+	constructor({ orgId, region, url, auth, storage = null }: { orgId: string; region: string; url?: string; auth?: Auth; storage?: any }) {
 		StorageManager.createStorage(storage);
 		this.orgId = orgId;
 		this.region = region;
@@ -125,6 +125,22 @@ class Motor {
 		}
 
 		return this.api.orgData;
+	}
+
+	async language(): Promise<string | undefined> {
+		if (this.api.orgData) {
+			return this.api.orgData.defaultLang;
+		}
+		let orgData = await this.orgSettings();
+		return orgData?.defaultLang;
+	}
+
+	async orgName(): Promise<string | undefined> {
+		if (this.api.orgData) {
+			return this.api.orgData.displayName;
+		}
+		let orgData = await this.orgSettings();
+		return orgData?.displayName;
 	}
 
 	async request({ method, path, params, data }: { method: string; path?: string; params?: object; data?: any }) {

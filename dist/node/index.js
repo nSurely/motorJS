@@ -129,6 +129,24 @@ class Motor {
             return this.api.orgData;
         });
     }
+    language() {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (this.api.orgData) {
+                return this.api.orgData.defaultLang;
+            }
+            let orgData = yield this.orgSettings();
+            return orgData === null || orgData === void 0 ? void 0 : orgData.defaultLang;
+        });
+    }
+    orgName() {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (this.api.orgData) {
+                return this.api.orgData.displayName;
+            }
+            let orgData = yield this.orgSettings();
+            return orgData === null || orgData === void 0 ? void 0 : orgData.displayName;
+        });
+    }
     request({ method, path, params, data }) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.api.request({

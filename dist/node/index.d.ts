@@ -95,9 +95,11 @@ declare class Motor {
         region: string;
         url?: string;
         auth?: Auth;
-        storage: any;
+        storage?: any;
     });
     orgSettings(): Promise<OrgSettings | undefined>;
+    language(): Promise<string | undefined>;
+    orgName(): Promise<string | undefined>;
     request({ method, path, params, data }: {
         method: string;
         path?: string;

@@ -52,7 +52,7 @@ class Vehicles {
     }
     listVehicles({ isActive, isApproved, regPlate, vin, sourceId, externalId, fullResponse, maxRecords, }) {
         return __asyncGenerator(this, arguments, function* listVehicles_1() {
-            var _a, e_1, _b, _c;
+            var e_1, _a;
             let count = 0;
             let params = {};
             isActive ? (params = Object.assign(Object.assign({}, params), { isActive: isActive })) : null;
@@ -63,31 +63,24 @@ class Vehicles {
             externalId ? (params = Object.assign(Object.assign({}, params), { externalId: String(externalId) })) : null;
             fullResponse ? (params = Object.assign(Object.assign({}, params), { full: fullResponse ? "true" : "false" })) : null;
             try {
-                for (var _d = true, _e = __asyncValues(this.api.batchFetch({
+                for (var _b = __asyncValues(this.api.batchFetch({
                     endpoint: `registered-vehicles`,
                     params: params,
-                })), _f; _f = yield __await(_e.next()), _a = _f.done, !_a;) {
-                    _c = _f.value;
-                    _d = false;
-                    try {
-                        let raw = _c;
-                        if (maxRecords && count >= maxRecords) {
-                            break;
-                        }
-                        let instance = new rv_1.Vehicle(raw);
-                        instance.api = this.api;
-                        yield yield __await(instance);
-                        count++;
+                })), _c; _c = yield __await(_b.next()), !_c.done;) {
+                    let raw = _c.value;
+                    if (maxRecords && count >= maxRecords) {
+                        break;
                     }
-                    finally {
-                        _d = true;
-                    }
+                    let instance = new rv_1.Vehicle(raw);
+                    instance.api = this.api;
+                    yield yield __await(instance);
+                    count++;
                 }
             }
             catch (e_1_1) { e_1 = { error: e_1_1 }; }
             finally {
                 try {
-                    if (!_d && !_a && (_b = _e.return)) yield __await(_b.call(_e));
+                    if (_c && !_c.done && (_a = _b.return)) yield __await(_a.call(_b));
                 }
                 finally { if (e_1) throw e_1.error; }
             }
@@ -145,7 +138,7 @@ class Vehicles {
     }
     listVehicleTypes({ brand, model, vehicleName, year, externalId, sourceId, isActive, internalFields, maxRecords, }) {
         return __asyncGenerator(this, arguments, function* listVehicleTypes_1() {
-            var _a, e_2, _b, _c;
+            var e_2, _a;
             let count = 0;
             let params = {};
             brand ? (params = Object.assign(Object.assign({}, params), { brand: String(brand) })) : null;
@@ -157,31 +150,24 @@ class Vehicles {
             isActive ? (params = Object.assign(Object.assign({}, params), { isActive: isActive })) : null;
             internalFields ? (params = Object.assign(Object.assign({}, params), { internalFields: internalFields })) : null;
             try {
-                for (var _d = true, _e = __asyncValues(this.api.batchFetch({
+                for (var _b = __asyncValues(this.api.batchFetch({
                     endpoint: `vehicles`,
                     params: params,
-                })), _f; _f = yield __await(_e.next()), _a = _f.done, !_a;) {
-                    _c = _f.value;
-                    _d = false;
-                    try {
-                        let raw = _c;
-                        if (maxRecords && count >= maxRecords) {
-                            break;
-                        }
-                        let instance = new v_1.VehicleType(raw);
-                        instance.api = this.api;
-                        yield yield __await(instance);
-                        count++;
+                })), _c; _c = yield __await(_b.next()), !_c.done;) {
+                    let raw = _c.value;
+                    if (maxRecords && count >= maxRecords) {
+                        break;
                     }
-                    finally {
-                        _d = true;
-                    }
+                    let instance = new v_1.VehicleType(raw);
+                    instance.api = this.api;
+                    yield yield __await(instance);
+                    count++;
                 }
             }
             catch (e_2_1) { e_2 = { error: e_2_1 }; }
             finally {
                 try {
-                    if (!_d && !_a && (_b = _e.return)) yield __await(_b.call(_e));
+                    if (_c && !_c.done && (_a = _b.return)) yield __await(_a.call(_b));
                 }
                 finally { if (e_2) throw e_2.error; }
             }
