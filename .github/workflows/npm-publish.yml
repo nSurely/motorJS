@@ -17,6 +17,14 @@ jobs:
           node-version: 16
       - run: npm ci
       - run: npm test
+        env:
+          ORG_ID: ${{ secrets.ORG_ID }}
+          REGION: ${{ secrets.REGION }}
+          API_KEY: ${{ secrets.API_KEY }}
+          USER_EMAIL: ${{ secrets.USER_EMAIL }}
+          USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
+          DRIVER_EMAIL: ${{ secrets.DRIVER_EMAIL }}
+          DRIVER_PASSWORD: ${{ secrets.DRIVER_PASSWORD }}
 
   publish-npm:
     needs: build
