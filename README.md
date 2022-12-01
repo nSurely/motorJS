@@ -30,7 +30,7 @@ If your web based project does not support importing packages, you can still use
 	<head>
 		<meta charset="utf-8" />
 		<title>Example HTML</title>
-		<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/nSurely/motorJS@v0.1.5-alpha/dist/web/motorjs.min.js"></script>
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/nSurely/motorJS@v0.1.6-alpha/dist/web/motorjs.min.js"></script>
 	</head>
 	<body>
 		...

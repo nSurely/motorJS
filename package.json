@@ -1,6 +1,6 @@
 {
 	"name": "@inaza.com/motorjs",
-	"version": "0.1.5-alpha",
+	"version": "0.1.6-alpha",
 	"description": "Inaza JS SDK",
 	"main": "dist/node/index.js",
 	"authors": [
@@ -38,7 +38,7 @@
 		"docs": "tsc && jsdoc -c ./.jsdoc.json"
 	},
 	"files": [
-		"src"
+		"dist"
 	],
 	"dependencies": {
 		"@babel/runtime": "^7.19.0",
