@@ -136,7 +136,7 @@ class Vehicles {
             return rv;
         });
     }
-    listVehicleTypes({ brand, model, vehicleName, year, externalId, sourceId, isActive, internalFields, maxRecords, }) {
+    listVehicleTypes({ brand, model, vehicleName, year, externalId, sourceId, isActive = true, internalFields, maxRecords, }) {
         return __asyncGenerator(this, arguments, function* listVehicleTypes_1() {
             var e_2, _a;
             let count = 0;

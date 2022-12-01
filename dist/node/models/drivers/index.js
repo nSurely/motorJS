@@ -74,7 +74,7 @@ class Driver extends custom_1.PrivateApiHandler {
             this._checkId();
             yield this.api.request({
                 method: "DELETE",
-                endpoint: `vehicles/${this.id}`,
+                endpoint: `drivers/${this.id}`,
             });
         });
     }

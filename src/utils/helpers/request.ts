@@ -36,14 +36,7 @@ async function parseJSON({ response, method, url, params }: { response: Response
 		case 401:
 		case 403:
 		case 404:
-			// do nothing. Remove below console.log
-			console.error("API call failed", {
-				url: url,
-				method: method,
-				status: response.status,
-				response: responseBody,
-				params: params || {},
-			});
+			// do nothing
 			break;
 
 		default:

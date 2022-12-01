@@ -151,7 +151,7 @@ export class Vehicles {
 		year,
 		externalId,
 		sourceId,
-		isActive,
+		isActive = true,
 		internalFields,
 		maxRecords,
 	}: {
