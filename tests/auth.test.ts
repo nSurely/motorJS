@@ -7,8 +7,20 @@ require("dotenv").config();
 describe("Auth with API Key", () => {
 	let auth, motor;
 	beforeAll(() => {
+		if (
+			!process.env.ORG_ID ||
+			!process.env.REGION ||
+			!process.env.API_KEY ||
+			!process.env.USER_EMAIL ||
+			!process.env.USER_PASSWORD ||
+			!process.env.DRIVER_EMAIL ||
+			!process.env.DRIVER_PASSWORD
+		) {
+			throw new Error("Please set the environment variables in the .env file");
+		}
+
 		expect(motorJS.Auth).toBeDefined();
-		
+
 		auth = new motorJS.Auth({
 			orgId: process.env.ORG_ID,
 			region: process.env.REGION,
@@ -23,7 +35,6 @@ describe("Auth with API Key", () => {
 	});
 
 	it("can authenticate with an api key", async () => {
-		// async generator test with jest
 		try {
 			for await (let driver of motor.listDrivers({
 				maxRecords: 10,
@@ -39,8 +50,20 @@ describe("Auth with API Key", () => {
 describe("Auth with User", () => {
 	let auth;
 	beforeAll(() => {
+		if (
+			!process.env.ORG_ID ||
+			!process.env.REGION ||
+			!process.env.API_KEY ||
+			!process.env.USER_EMAIL ||
+			!process.env.USER_PASSWORD ||
+			!process.env.DRIVER_EMAIL ||
+			!process.env.DRIVER_PASSWORD
+		) {
+			throw new Error("Please set the environment variables in the .env file");
+		}
+
 		expect(motorJS.Auth).toBeDefined();
-		
+
 		auth = new motorJS.Auth({
 			orgId: process.env.ORG_ID,
 			region: process.env.REGION,
@@ -62,8 +85,19 @@ describe("Auth with User", () => {
 describe("Auth with Driver", () => {
 	let auth;
 	beforeAll(() => {
+		if (
+			!process.env.ORG_ID ||
+			!process.env.REGION ||
+			!process.env.API_KEY ||
+			!process.env.USER_EMAIL ||
+			!process.env.USER_PASSWORD ||
+			!process.env.DRIVER_EMAIL ||
+			!process.env.DRIVER_PASSWORD
+		) {
+			throw new Error("Please set the environment variables in the .env file");
+		}
 		expect(motorJS.Auth).toBeDefined();
-		
+
 		auth = new motorJS.Auth({
 			orgId: process.env.ORG_ID,
 			region: process.env.REGION,

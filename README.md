@@ -22,7 +22,11 @@ import motorJS from "motorJS";
 
 ### Option 2: Importing it directly via CDN
 
-If your web based project does not support importing packages, you can still use motorJS by including it as a external script in your project
+If your web based project does not support importing packages, you can still use motorJS by including it as an external script in your project
+
+```
+https://cdn.jsdelivr.net/gh/nSurely/motorJS@v0.1.0-alpha/dist/web/index.js
+```
 
 ```html
 <!DOCTYPE html>
@@ -30,7 +34,7 @@ If your web based project does not support importing packages, you can still use
 	<head>
 		<meta charset="utf-8" />
 		<title>Example HTML</title>
-		<script type="text/javascript" src="link-to-bundled-script-file"></script>
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/nSurely/motorJS@v0.1.0-alpha/dist/web/index.js"></script>
 	</head>
 	<body>
 		...

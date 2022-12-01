@@ -93,7 +93,7 @@ export class Driver extends PrivateApiHandler {
 
 		await this.api.request({
 			method: "DELETE",
-			endpoint: `vehicles/${this.id}`,
+			endpoint: `drivers/${this.id}`,
 		});
 	}
 
