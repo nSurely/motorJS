@@ -1,6 +1,6 @@
 {
-	"name": "motorJS",
-	"version": "0.1.1-alpha",
+	"name": "@inaza.com/motorjs",
+	"version": "0.1.2-alpha",
 	"description": "Inaza JS SDK",
 	"main": "dist/node/index.js",
 	"authors": [

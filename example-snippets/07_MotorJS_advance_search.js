@@ -1,4 +1,4 @@
-import motorJS from "motorJS";
+import motorJS from '@inaza.com/motorjs';
 
 let auth = new motorJS.Auth({
 	orgId: "<< your-org-id >>",

@@ -1,5 +1,5 @@
 // Import the motorJS object from the motorJS package
-import motorJS from "motorJS";
+import motorJS from '@inaza.com/motorjs';
 
 // Initialise the auth object. Here we are using a user account for authentication
 let auth = new motorJS.Auth({
