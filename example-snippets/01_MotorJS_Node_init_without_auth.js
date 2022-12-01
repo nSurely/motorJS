@@ -1,5 +1,5 @@
 // Import the motorJS object from the motorJS package
-import motorJS from "motorJS";
+import motorJS from '@inaza.com/motorjs';
 
 // Initialise the Motor SDK
 let motor = motorJS.Motor({

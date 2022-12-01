@@ -1,4 +1,4 @@
-import motorJS from "motorJS";
+import motorJS from '@inaza.com/motorjs';
 
 // Initialise the auth object. Here we are using the apiKey for authentication
 let auth = new motorJS.Auth({

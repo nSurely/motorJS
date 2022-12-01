@@ -36,12 +36,12 @@ const models_1 = __importDefault(require("./models"));
  * @break
  *
  * ## 📦 Installation
- * `npm install @inaza/motorJS`
+ * `npm install @inaza.com/motorjs`
  *
  * ## 🚀 Usage
  * ```js
  * // Import the motorJS object from the package
- * import motorJS from "motorJS";
+ * import motorJS from '@inaza.com/motorjs';
  *
  * // Optional - Import AsyncStorage if you are using the MotorJS sdk in a react native project.
  * import AsyncStorage from "@react-native-async-storage/async-storage";
