@@ -1,6 +1,6 @@
 {
 	"name": "motorJS",
-	"version": "0.1.0",
+	"version": "0.1.1-alpha",
 	"description": "Inaza JS SDK",
 	"main": "dist/node/index.js",
 	"authors": [
@@ -29,10 +29,11 @@
 		"webpack-cli": "^4.10.0"
 	},
 	"scripts": {
-		"build": "rm -rf ./dist/node && tsc --build",
-		"build-watch": "rm -rf ./dist/node && tsc -w",
-		"build-webpack": "webpack",
-		"build-webpack-watch": "webpack -w",
+		"build": "rm -rf ./dist && tsc --build && webpack",
+		"tsc": "rm -rf ./dist/node && tsc",
+		"tsc-watch": "rm -rf ./dist/node && tsc -w",
+		"build-webpack": "rm -rf ./dist/web && webpack",
+		"build-webpack-watch": "rm -rf ./dist/web && webpack -w",
 		"test": "jest --silent",
 		"docs": "tsc && jsdoc -c ./.jsdoc.json"
 	},
