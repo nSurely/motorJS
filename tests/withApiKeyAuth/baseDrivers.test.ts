@@ -64,8 +64,8 @@ describe("Base Driver with API Key Auth", () => {
 
 	it("can create a driver", async () => {
 		let driverToCreate = new motorJS.models.Driver({
-			firstName: "John",
-			lastName: "Doe",
+			firstName: "MotorJS",
+			lastName: "Test",
 			// generate random 5 character email
 			email: Math.random().toString(36).slice(2, 12) + "@example.com",
 		});
@@ -82,14 +82,18 @@ describe("Base Driver with API Key Auth", () => {
 			expect(driver.lastName).toBe(driverToCreate.lastName);
 			expect(driver.email).toBe(driverToCreate.email);
 
-			await driver.delete();
+			try {
+				await driver.delete();
+			} catch (error) {
+				throw error;
+			}
 
 			// try to fetch the driver again
 			try {
 				await motor.getDriver({
 					driverId: driver.id!,
 				});
-                throw new Error("Driver should not exist");
+				throw new Error("Driver should not exist");
 			} catch (error) {
 				expect(error.message).not.toBe("Driver should not exist");
 			}
