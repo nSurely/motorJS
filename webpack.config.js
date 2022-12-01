@@ -17,7 +17,7 @@ module.exports = {
 		extensions: [".tsx", ".ts", ".js"],
 	},
 	output: {
-		filename: "web/index.js",
+		filename: "web/motorJS.min.js",
 		path: path.resolve(__dirname, "dist"),
 	},
 };

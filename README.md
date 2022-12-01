@@ -24,17 +24,13 @@ import motorJS from "motorJS";
 
 If your web based project does not support importing packages, you can still use motorJS by including it as an external script in your project
 
-```
-https://cdn.jsdelivr.net/gh/nSurely/motorJS@v0.1.0-alpha/dist/web/index.js
-```
-
 ```html
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8" />
 		<title>Example HTML</title>
-		<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/nSurely/motorJS@v0.1.0-alpha/dist/web/index.js"></script>
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/nSurely/motorJS@v0.1.1-alpha/dist/web/motorJS.min.js"></script>
 	</head>
 	<body>
 		...
