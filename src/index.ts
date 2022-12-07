@@ -9,6 +9,7 @@ import Fleets from "./classes/fleets";
 import { OrgSettings } from "./utils/api/org";
 import { Search } from "./utils/search";
 import models from "./models";
+import TripManager from "./classes/trips";
 
 /**
  * Entry point for the SDK to interact with the Inaza API.
@@ -159,6 +160,7 @@ applyMixins(Motor, [Drivers, Vehicles, Fleets]);
 let motorJS = {
 	Motor,
 	Auth,
+	TripManager,
 	Search,
 	models,
 };

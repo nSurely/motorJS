@@ -207,4 +207,16 @@ export class Vehicles {
 
 		return instance;
 	}
+
+	async getVehicleType({ vehicleTypeId }: { vehicleTypeId: string }): Promise<VehicleType> {
+		let raw = await this.api.request({
+			method: "GET",
+			endpoint: `vehicles/${vehicleTypeId}`,
+		});
+
+		let instance = new VehicleType(raw);
+		instance.api = this.api;
+
+		return instance;
+	}
 }
