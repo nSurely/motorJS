@@ -44,5 +44,8 @@ export declare class Vehicles {
         vehicleType: VehicleType;
         sendWebhook?: boolean;
     }): Promise<VehicleType>;
+    getVehicleType({ vehicleTypeId }: {
+        vehicleTypeId: string;
+    }): Promise<VehicleType>;
 }
 //# sourceMappingURL=core.d.ts.map

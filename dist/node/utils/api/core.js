@@ -249,6 +249,49 @@ class APIHandlerAuth {
             }
         });
     }
+    telematicsRequest({ method, endpoint, params, data, headers }) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (data) {
+                data = Object.assign({}, data);
+                // check if data has api, remove it
+                if (data.api) {
+                    delete data.api;
+                }
+            }
+            let url = `${this.telematicsUrl}/${endpoint}`;
+            let response = yield this.makeRequest({
+                method,
+                url,
+                params,
+                data,
+                headers,
+            });
+            let body = (response === null || response === void 0 ? void 0 : response.body) || {};
+            let status = (response === null || response === void 0 ? void 0 : response.status) || 0;
+            if (status === 401) {
+                yield this.checkAuth();
+                headers = Object.assign(Object.assign({}, headers), this.auth.getHeaders());
+                let response = yield this.makeRequest({
+                    method,
+                    url,
+                    params,
+                    data,
+                    headers,
+                });
+                body = (response === null || response === void 0 ? void 0 : response.body) || {};
+                status = (response === null || response === void 0 ? void 0 : response.status) || 0;
+            }
+            if (status < 300) {
+                return body;
+            }
+            else if (status === 401) {
+                throw new exceptions_1.APIAuthError("Not authenticated");
+            }
+            else {
+                throw new exceptions_1.APIError(`Api responded with status code ${status}`);
+            }
+        });
+    }
     batchFetch({ endpoint, params, headers, limit = 50, offset = 0, }) {
         return __asyncGenerator(this, arguments, function* batchFetch_2() {
             params = Object.assign(Object.assign({}, params), { limit,

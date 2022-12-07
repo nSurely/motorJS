@@ -188,6 +188,17 @@ class Vehicles {
             return instance;
         });
     }
+    getVehicleType({ vehicleTypeId }) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let raw = yield this.api.request({
+                method: "GET",
+                endpoint: `vehicles/${vehicleTypeId}`,
+            });
+            let instance = new v_1.VehicleType(raw);
+            instance.api = this.api;
+            return instance;
+        });
+    }
 }
 exports.Vehicles = Vehicles;
 //# sourceMappingURL=core.js.map

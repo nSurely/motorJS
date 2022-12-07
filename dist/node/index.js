@@ -22,6 +22,7 @@ const vehicles_1 = __importDefault(require("./classes/vehicles"));
 const fleets_1 = __importDefault(require("./classes/fleets"));
 const search_1 = require("./utils/search");
 const models_1 = __importDefault(require("./models"));
+const trips_1 = __importDefault(require("./classes/trips"));
 /**
  * Entry point for the SDK to interact with the Inaza API.
  * @break
@@ -162,6 +163,7 @@ class Motor {
 let motorJS = {
     Motor,
     Auth: auth_1.default,
+    TripManager: trips_1.default,
     Search: search_1.Search,
     models: models_1.default,
 };
