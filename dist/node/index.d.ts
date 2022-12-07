@@ -7,6 +7,7 @@ import Vehicles from "./classes/vehicles";
 import Fleets from "./classes/fleets";
 import { OrgSettings } from "./utils/api/org";
 import { Search } from "./utils/search";
+import TripManager from "./classes/trips";
 /**
  * Entry point for the SDK to interact with the Inaza API.
  * @break
@@ -112,6 +113,7 @@ interface Motor extends Drivers, Vehicles, Fleets {
 declare let motorJS: {
     Motor: typeof Motor;
     Auth: typeof Auth;
+    TripManager: typeof TripManager;
     Search: typeof Search;
     models: {
         Driver: typeof import("./models/drivers").Driver;

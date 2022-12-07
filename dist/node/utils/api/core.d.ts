@@ -66,6 +66,13 @@ export declare class APIHandlerAuth {
         headers?: any;
         urlOverride?: string;
     }): Promise<any>;
+    telematicsRequest({ method, endpoint, params, data, headers }: {
+        method: string;
+        endpoint?: string;
+        params?: object;
+        data?: any;
+        headers?: any;
+    }): Promise<any>;
     batchFetch({ endpoint, params, headers, limit, offset, }: {
         endpoint: string;
         params?: object;

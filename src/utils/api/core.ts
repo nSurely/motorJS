@@ -318,6 +318,56 @@ export class APIHandlerAuth {
 		}
 	}
 
+	async telematicsRequest({ method, endpoint, params, data, headers }: { method: string; endpoint?: string; params?: object; data?: any; headers?: any }) {
+		if (data) {
+			data = {
+				...data,
+			};
+			// check if data has api, remove it
+			if (data.api) {
+				delete data.api;
+			}
+		}
+
+		let url = `${this.telematicsUrl}/${endpoint}`;
+		let response = await this.makeRequest({
+			method,
+			url,
+			params,
+			data,
+			headers,
+		});
+
+		let body = response?.body || {};
+		let status = response?.status || 0;
+
+		if (status === 401) {
+			await this.checkAuth();
+			headers = {
+				...headers,
+				...this.auth.getHeaders(),
+			};
+			let response = await this.makeRequest({
+				method,
+				url,
+				params,
+				data,
+				headers,
+			});
+
+			body = response?.body || {};
+			status = response?.status || 0;
+		}
+
+		if (status < 300) {
+			return body;
+		} else if (status === 401) {
+			throw new APIAuthError("Not authenticated");
+		} else {
+			throw new APIError(`Api responded with status code ${status}`);
+		}
+	}
+
 	async *batchFetch({
 		endpoint,
 		params,
