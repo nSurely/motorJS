@@ -240,21 +240,28 @@ class Fleet extends custom_1.PrivateApiHandler {
     }
     listDrivers() {
         return __asyncGenerator(this, arguments, function* listDrivers_1() {
-            var e_1, _a;
+            var _a, e_1, _b, _c;
             try {
-                for (var _b = __asyncValues(this.api.batchFetch({
+                for (var _d = true, _e = __asyncValues(this.api.batchFetch({
                     endpoint: `/fleets/${this.id}/drivers`,
-                })), _c; _c = yield __await(_b.next()), !_c.done;) {
-                    let raw = _c.value;
-                    let fleetDriver = new drivers_1.FleetDriver(raw);
-                    fleetDriver.api = this.api;
-                    yield yield __await(fleetDriver);
+                })), _f; _f = yield __await(_e.next()), _a = _f.done, !_a;) {
+                    _c = _f.value;
+                    _d = false;
+                    try {
+                        let raw = _c;
+                        let fleetDriver = new drivers_1.FleetDriver(raw);
+                        fleetDriver.api = this.api;
+                        yield yield __await(fleetDriver);
+                    }
+                    finally {
+                        _d = true;
+                    }
                 }
             }
             catch (e_1_1) { e_1 = { error: e_1_1 }; }
             finally {
                 try {
-                    if (_c && !_c.done && (_a = _b.return)) yield __await(_a.call(_b));
+                    if (!_d && !_a && (_b = _e.return)) yield __await(_b.call(_e));
                 }
                 finally { if (e_1) throw e_1.error; }
             }
@@ -309,21 +316,28 @@ class Fleet extends custom_1.PrivateApiHandler {
     }
     listVehicles() {
         return __asyncGenerator(this, arguments, function* listVehicles_1() {
-            var e_2, _a;
+            var _a, e_2, _b, _c;
             try {
-                for (var _b = __asyncValues(this.api.batchFetch({
+                for (var _d = true, _e = __asyncValues(this.api.batchFetch({
                     endpoint: `/fleets/${this.id}/vehicles`,
-                })), _c; _c = yield __await(_b.next()), !_c.done;) {
-                    let raw = _c.value;
-                    let fleetVehicle = new vehicles_1.FleetVehicle(raw);
-                    fleetVehicle.api = this.api;
-                    yield yield __await(fleetVehicle);
+                })), _f; _f = yield __await(_e.next()), _a = _f.done, !_a;) {
+                    _c = _f.value;
+                    _d = false;
+                    try {
+                        let raw = _c;
+                        let fleetVehicle = new vehicles_1.FleetVehicle(raw);
+                        fleetVehicle.api = this.api;
+                        yield yield __await(fleetVehicle);
+                    }
+                    finally {
+                        _d = true;
+                    }
                 }
             }
             catch (e_2_1) { e_2 = { error: e_2_1 }; }
             finally {
                 try {
-                    if (_c && !_c.done && (_a = _b.return)) yield __await(_a.call(_b));
+                    if (!_d && !_a && (_b = _e.return)) yield __await(_b.call(_e));
                 }
                 finally { if (e_2) throw e_2.error; }
             }
@@ -378,24 +392,31 @@ class Fleet extends custom_1.PrivateApiHandler {
     }
     listDriverVehicleAssignments({ driverId, includeUnassigned = true, }) {
         return __asyncGenerator(this, arguments, function* listDriverVehicleAssignments_1() {
-            var e_3, _a;
+            var _a, e_3, _b, _c;
             try {
-                for (var _b = __asyncValues(this.api.batchFetch({
+                for (var _d = true, _e = __asyncValues(this.api.batchFetch({
                     endpoint: `/fleets/${this.id}/drivers/${driverId}/vehicles`,
                     params: {
                         includeUnassigned,
                     },
-                })), _c; _c = yield __await(_b.next()), !_c.done;) {
-                    let raw = _c.value;
-                    let instance = new assigned_1.FleetDriverVehicleAssignment(raw);
-                    instance.api = this.api;
-                    yield yield __await(instance);
+                })), _f; _f = yield __await(_e.next()), _a = _f.done, !_a;) {
+                    _c = _f.value;
+                    _d = false;
+                    try {
+                        let raw = _c;
+                        let instance = new assigned_1.FleetDriverVehicleAssignment(raw);
+                        instance.api = this.api;
+                        yield yield __await(instance);
+                    }
+                    finally {
+                        _d = true;
+                    }
                 }
             }
             catch (e_3_1) { e_3 = { error: e_3_1 }; }
             finally {
                 try {
-                    if (_c && !_c.done && (_a = _b.return)) yield __await(_a.call(_b));
+                    if (!_d && !_a && (_b = _e.return)) yield __await(_b.call(_e));
                 }
                 finally { if (e_3) throw e_3.error; }
             }
@@ -406,24 +427,31 @@ class Fleet extends custom_1.PrivateApiHandler {
      */
     listPolicies() {
         return __asyncGenerator(this, arguments, function* listPolicies_1() {
-            var e_4, _a;
+            var _a, e_4, _b, _c;
             try {
-                for (var _b = __asyncValues(this.api.batchFetch({
+                for (var _d = true, _e = __asyncValues(this.api.batchFetch({
                     endpoint: `/policy`,
                     params: {
                         fleetId: this.id,
                     },
-                })), _c; _c = yield __await(_b.next()), !_c.done;) {
-                    let raw = _c.value;
-                    let instance = new policy_1.Policy(raw);
-                    instance.api = this.api;
-                    yield yield __await(instance);
+                })), _f; _f = yield __await(_e.next()), _a = _f.done, !_a;) {
+                    _c = _f.value;
+                    _d = false;
+                    try {
+                        let raw = _c;
+                        let instance = new policy_1.Policy(raw);
+                        instance.api = this.api;
+                        yield yield __await(instance);
+                    }
+                    finally {
+                        _d = true;
+                    }
                 }
             }
             catch (e_4_1) { e_4 = { error: e_4_1 }; }
             finally {
                 try {
-                    if (_c && !_c.done && (_a = _b.return)) yield __await(_a.call(_b));
+                    if (!_d && !_a && (_b = _e.return)) yield __await(_b.call(_e));
                 }
                 finally { if (e_4) throw e_4.error; }
             }

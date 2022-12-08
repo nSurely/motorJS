@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import motorJS from '@inaza.com/motorjs';
+import motorJS from '@inaza/motorjs';
 
 // Make sure env.json file is present in the example-react/src folder. If not, create one based on the env.example.json file.
 import env from './env.json';

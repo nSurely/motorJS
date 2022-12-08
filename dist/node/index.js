@@ -37,12 +37,12 @@ const trips_1 = __importDefault(require("./classes/trips"));
  * @break
  *
  * ## 📦 Installation
- * `npm install @inaza.com/motorjs`
+ * `npm install @inaza/motorjs`
  *
  * ## 🚀 Usage
  * ```js
  * // Import the motorJS object from the package
- * import motorJS from '@inaza.com/motorjs';
+ * import motorJS from '@inaza/motorjs';
  *
  * // Optional - Import AsyncStorage if you are using the MotorJS sdk in a react native project.
  * import AsyncStorage from "@react-native-async-storage/async-storage";
