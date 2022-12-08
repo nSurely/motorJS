@@ -11,13 +11,13 @@ The goal of motorJS and other Inaza libraries and SDKs are to provide a layer of
 Install the motorJS package using npm:
 
 ```console
-foo@bar:~$ npm install @inaza.com/motorjs
+foo@bar:~$ npm install @inaza/motorjs
 ```
 
 Import motorJS
 
 ```js
-import motorJS from '@inaza.com/motorjs';
+import motorJS from '@inaza/motorjs';
 ```
 
 ### Option 2: Importing it directly via CDN
@@ -30,7 +30,7 @@ If your web based project does not support importing packages, you can still use
 	<head>
 		<meta charset="utf-8" />
 		<title>Example HTML</title>
-		<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/nSurely/motorJS@v0.1.7-alpha/dist/web/motorjs.min.js"></script>
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/nSurely/motorJS@v0.1.0-alpha/dist/web/motorjs.min.js"></script>
 	</head>
 	<body>
 		...
@@ -45,7 +45,7 @@ If your web based project does not support importing packages, you can still use
 
 ```js
 // Import the motorJS object from the package
-import motorJS from '@inaza.com/motorjs';
+import motorJS from '@inaza/motorjs';
 
 // Optional - Import AsyncStorage if you are using the MotorJS sdk in a react native project.
 import AsyncStorage from "@react-native-async-storage/async-storage";

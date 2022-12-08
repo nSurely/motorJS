@@ -1,4 +1,4 @@
-import motorJS from '@inaza.com/motorjs';
+import motorJS from '@inaza/motorjs';
 
 // The new driver
 // Note: Driver is not created yet

@@ -1,7 +1,7 @@
 import React from 'react';
 import {SafeAreaView, StatusBar, StyleSheet, Text, View} from 'react-native';
 
-import motorJS from '@inaza.com/motorjs';
+import motorJS from '@inaza/motorjs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Make sure env.json file is present in the example-react-native folder. If not, create one based on the env.example.json file.

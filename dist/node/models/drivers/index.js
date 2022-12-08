@@ -208,7 +208,7 @@ class Driver extends custom_1.PrivateApiHandler {
     }
     listCharges({ eventType, eventStatus, maxRecords }) {
         return __asyncGenerator(this, arguments, function* listCharges_1() {
-            var e_1, _a;
+            var _a, e_1, _b, _c;
             this._checkId();
             let params = {};
             if (eventType) {
@@ -219,24 +219,31 @@ class Driver extends custom_1.PrivateApiHandler {
             }
             let count = 0;
             try {
-                for (var _b = __asyncValues(this.api.batchFetch({
+                for (var _d = true, _e = __asyncValues(this.api.batchFetch({
                     endpoint: `drivers/${this.id}/billing-events`,
                     params: params,
-                })), _c; _c = yield __await(_b.next()), !_c.done;) {
-                    let raw = _c.value;
-                    if (maxRecords && count >= maxRecords) {
-                        break;
+                })), _f; _f = yield __await(_e.next()), _a = _f.done, !_a;) {
+                    _c = _f.value;
+                    _d = false;
+                    try {
+                        let raw = _c;
+                        if (maxRecords && count >= maxRecords) {
+                            break;
+                        }
+                        let instance = new events_1.BillingEvent(raw);
+                        instance.api = this.api;
+                        yield yield __await(instance);
+                        count += 1;
                     }
-                    let instance = new events_1.BillingEvent(raw);
-                    instance.api = this.api;
-                    yield yield __await(instance);
-                    count += 1;
+                    finally {
+                        _d = true;
+                    }
                 }
             }
             catch (e_1_1) { e_1 = { error: e_1_1 }; }
             finally {
                 try {
-                    if (_c && !_c.done && (_a = _b.return)) yield __await(_a.call(_b));
+                    if (!_d && !_a && (_b = _e.return)) yield __await(_b.call(_e));
                 }
                 finally { if (e_1) throw e_1.error; }
             }
@@ -244,7 +251,7 @@ class Driver extends custom_1.PrivateApiHandler {
     }
     listPolicies({ looseMatch = true, isActivePolicy }) {
         return __asyncGenerator(this, arguments, function* listPolicies_1() {
-            var e_2, _a;
+            var _a, e_2, _b, _c;
             let params = {};
             params.driverIds = this.id;
             params.driverLooseMatch = looseMatch;
@@ -252,20 +259,27 @@ class Driver extends custom_1.PrivateApiHandler {
                 params.isActivePolicy = isActivePolicy;
             }
             try {
-                for (var _b = __asyncValues(this.api.batchFetch({
+                for (var _d = true, _e = __asyncValues(this.api.batchFetch({
                     endpoint: `policy`,
                     params: params,
-                })), _c; _c = yield __await(_b.next()), !_c.done;) {
-                    let raw = _c.value;
-                    let instance = new policy_1.Policy(raw);
-                    instance.api = this.api;
-                    yield yield __await(instance);
+                })), _f; _f = yield __await(_e.next()), _a = _f.done, !_a;) {
+                    _c = _f.value;
+                    _d = false;
+                    try {
+                        let raw = _c;
+                        let instance = new policy_1.Policy(raw);
+                        instance.api = this.api;
+                        yield yield __await(instance);
+                    }
+                    finally {
+                        _d = true;
+                    }
                 }
             }
             catch (e_2_1) { e_2 = { error: e_2_1 }; }
             finally {
                 try {
-                    if (_c && !_c.done && (_a = _b.return)) yield __await(_a.call(_b));
+                    if (!_d && !_a && (_b = _e.return)) yield __await(_b.call(_e));
                 }
                 finally { if (e_2) throw e_2.error; }
             }
